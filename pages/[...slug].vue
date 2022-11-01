@@ -1,6 +1,6 @@
 <template>
   <main>
     <!-- <ContentDoc /> -->
-    just test for nuxt3 deploy
+    测试
   </main>
 </template>
