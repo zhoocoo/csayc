@@ -7,7 +7,7 @@ module.exports = {
       script: "./.output/server/index.mjs",
       max_memory_restart: "400M",
       env: {
-        PORT: 8889,
+        PORT: 80,
         HOST: "0.0.0.0",
       },
       ignore_watch: ["node_modules", "test"],
