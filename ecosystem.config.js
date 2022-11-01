@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "kt-seo",
+      name: "blog",
       exec_mode: "cluster",
       instances: "4",
       script: "./.output/server/index.mjs",
