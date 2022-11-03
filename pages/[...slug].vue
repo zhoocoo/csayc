@@ -1,6 +1,5 @@
 <template>
   <main>
-    <!-- <ContentDoc /> -->
-    测试
+    <ContentDoc />
   </main>
 </template>
