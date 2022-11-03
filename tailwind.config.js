@@ -1,26 +1,20 @@
-/** @type {import('tailwindcss').Config} */
-/**import { colors } from 'windicss/colors';
- *
- * 本文件修改后，需要重启后，方能生效
- */
-module.exports = {
-  theme: {
-    extend: {},
-  },
+import colors from 'tailwindcss/colors'
+
+export default {
   content: [
-    "./components/**/*.{vue,js,ts}",
-    "./layouts/**/*.vue",
-    "./pages/**/*.vue",
-    "./plugins/**/*.{js,ts}",
+    './components/**/*.{js,vue,ts}',
+    './layouts/**/*.vue',
+    './pages/**/*.vue',
+    './plugins/**/*.{js,ts}',
+    './app.vue'
   ],
-  // plugins: [require("@tailwindcss/line-clamp")],
-  // daisyui: {
-  //   themes: [
-  //     {
-  //       mytheme: {},
-  //     },
-  //     "dark",
-  //     "cupcake",
-  //   ],
-  // },
-};
+  darkMode: 'class',
+  plugins: [require('@tailwindcss/typography')],
+  theme: {
+    extend: {
+      colors: {
+        primary: colors.gray
+      }
+    }
+  }
+}
