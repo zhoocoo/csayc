@@ -9,7 +9,7 @@ export default {
     './app.vue'
   ],
   darkMode: 'class',
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [require('daisyui'), require('@tailwindcss/typography')],
   theme: {
     extend: {
       colors: {
