@@ -1,12 +1,5 @@
 <template>
-  <NuxtLayout :name="layout">
-    <AppLayout>
-      <NuxtPage />
-    </AppLayout>
-  </NuxtLayout>
+  <AppLayout>
+    <NuxtPage />
+  </AppLayout>
 </template>
-
-<script setup>
-// You might choose this based on an API call or logged-in status
-const layout = ref('full-width')
-</script>
