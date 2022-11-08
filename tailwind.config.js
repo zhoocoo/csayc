@@ -1,6 +1,7 @@
-import colors from 'tailwindcss/colors'
+// import colors from 'tailwindcss/colors'
+// const colors = require('tailwindcss/colors')
 
-export default {
+module.exports = {
   content: [
     './components/**/*.{js,vue,ts}',
     './layouts/**/*.vue',
@@ -9,13 +10,14 @@ export default {
     './app.vue',
     'content/**/*.md'
   ],
-  darkMode: 'class',
+  // darkMode: 'class',
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
-  theme: {
-    extend: {
-      colors: {
-        primary: colors.gray
-      }
-    }
-  }
+  // theme: {
+  //   extend: {
+  //     colors: {
+  //       primary: colors.gray
+  //     }
+  //   }
+  // },
+  daisyui: {}
 }

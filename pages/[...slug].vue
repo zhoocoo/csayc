@@ -1,5 +1,7 @@
 <template>
-  <article class="prose prose-gray max-w-none dark:prose-invert">
-    <ContentDoc />
-  </article>
+  <main class="container mx-auto">
+    <article class="prose max-w-none">
+      <ContentDoc />
+    </article>
+  </main>
 </template>
