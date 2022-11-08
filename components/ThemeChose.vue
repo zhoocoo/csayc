@@ -28,9 +28,9 @@ const themeConfig = ref([
 </script>
 
 <template>
-  <div class="dropdown-bottom dropdown-end dropdown">
-    <label tabindex="0" class="btn m-1"
-      >🎨 Theme
+  <div class="dropdown-bottom dropdown-hover dropdown-end dropdown">
+    <label tabindex="0" class="btn-ghost btn"
+      >🎨主题
       <svg
         class="fill-current"
         xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@ const themeConfig = ref([
     <ul
       tabindex="0"
       data-choose-theme
-      class="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow"
+      class="dropdown-content menu rounded-box menu-compact w-52 bg-base-100 p-2 shadow-lg"
     >
       <li v-for="theme in themeConfig" :key="theme">
         <a :data-set-theme="theme">{{ theme }}</a>

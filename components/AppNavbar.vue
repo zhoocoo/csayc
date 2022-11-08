@@ -34,7 +34,7 @@ console.log(appConfig)
               />
             </svg>
           </a>
-          <ul class="bg-base-100 p-2">
+          <ul class="bg-base-100 shadow-lg">
             <li v-for="link of navigation[1].children" :key="link._path">
               <NuxtLink :to="link._path" active-class="font-bold" class="mr-6">
                 {{ link.title }}
@@ -42,10 +42,8 @@ console.log(appConfig)
             </li>
           </ul>
         </li>
-        <li>
-          <a><ThemeChose></ThemeChose></a>
-        </li>
       </ul>
+      <ThemeChose></ThemeChose>
     </div>
   </div>
 </template>
