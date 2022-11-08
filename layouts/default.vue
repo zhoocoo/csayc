@@ -1,7 +1,6 @@
 <template>
   <div class="bg-white dark:bg-primary-800">
-    <main class="container mx-auto">
-      <AppNavbar />
+    <main class="container mx-auto prose sm:px-8 prose-gray dark:prose-invert">
       <slot>
         <div class="text-2xl">页面不见了</div>
       </slot>
@@ -14,7 +13,8 @@
 .prose h3 a {
   @apply no-underline;
   &:hover {
-    @apply border-b border-neutral-600 dark:border-neutral-300;
+    /* @apply border-b border-neutral-600 dark:border-neutral-300; */
+    /* @apply border-b border-border-gray dark:border-neutral-300; */
   }
 }
 </style>

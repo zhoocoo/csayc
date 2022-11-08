@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 import colors from 'tailwindcss/colors'
 
 export default {
@@ -11,7 +10,7 @@ export default {
     'content/**/*.md'
   ],
   darkMode: 'class',
-  plugins: [require('daisyui'), require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/typography'), require('daisyui')],
   theme: {
     extend: {
       colors: {

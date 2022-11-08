@@ -1,12 +1,4 @@
 export default {
-  // plugins: [
-  //   require('postcss-import'),
-  //   // require('tailwindcss/nesting')(require('postcss-nesting')),
-  //   require('tailwindcss')({
-  //     config: './tailwindcss-config.js'
-  //   }),
-  //   require('autoprefixer')
-  // ]
   plugins: {
     autoprefixer: {
       overrideBrowserslist: [
@@ -24,7 +16,6 @@ export default {
     // },
     'postcss-import': {},
     tailwindcss: {
-      // config: './tailwindcss-config.js'
     },
     '@tailwindcss/nesting': 'postcss-nesting'
   }

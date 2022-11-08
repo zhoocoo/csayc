@@ -4,6 +4,7 @@
   <div class="sm:pt-6 sm:pb-10">
     <Html lang="zh_cn" />
     <AppLoadingBar />
+    <AppNavbar />
     <slot />
   </div>
 </template>

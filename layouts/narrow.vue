@@ -14,7 +14,8 @@
 .prose h3 a {
   @apply no-underline;
   &:hover {
-    @apply border-b border-neutral-600 dark:border-neutral-300;
+    /* @apply border-b border-neutral-600 dark:border-neutral-300; */
+    /* @apply border-b border-gray dark:border-neutral-300; */
   }
 }
 </style>
