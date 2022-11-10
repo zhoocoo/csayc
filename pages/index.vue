@@ -8,7 +8,7 @@ umSendPV()
 <template>
   <div class="home">
     <main class="mx-auto">
-      <div class="hero min-h-screen bg-base-200">
+      <!-- <div class="hero min-h-screen bg-base-200">
         <div class="hero-content text-center">
           <div class="max-w-md">
             <h1 class="text-5xl font-bold">CSAYC的个人博客</h1>
@@ -18,7 +18,8 @@ umSendPV()
             </p>
           </div>
         </div>
-      </div>
+      </div> -->
+      <Back></Back>
     </main>
   </div>
 </template>
