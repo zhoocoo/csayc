@@ -6,17 +6,14 @@ const { navigation } = useContent()
 <template>
   <div class="navbar bg-base-100">
     <div class="flex-1">
-      <a class="btn-ghost btn text-xl normal-case">
+      <NuxtLink class="btn-ghost btn text-xl normal-case" to="/">
         <span class="uppercase">C</span>
         <span class="uppercase text-base-content">SAY</span>
         <span class="uppercase">C</span>
-      </a>
+      </NuxtLink>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal p-0">
-        <li>
-          <NuxtLink to="/"> 首页 </NuxtLink>
-        </li>
         <li tabindex="0">
           <a>
             文章列表

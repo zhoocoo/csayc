@@ -30,7 +30,7 @@ const themeConfig = ref([
 <template>
   <div class="dropdown-bottom dropdown-hover dropdown-end dropdown">
     <label tabindex="0" class="btn-ghost btn"
-      >🎨主题
+      >🎨 主题
       <svg
         class="fill-current"
         xmlns="http://www.w3.org/2000/svg"
