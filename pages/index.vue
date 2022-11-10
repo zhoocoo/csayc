@@ -5,7 +5,7 @@
 
 <template>
   <div class="home">
-    <main class="container mx-auto">
+    <main class="container mx-auto px-4">
       <article class="prose max-w-none">
         <ContentDoc path="/article/async" />
       </article>
