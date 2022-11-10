@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'node-server'
   },
-  css: ['~/assets/css/common.css', '~/assets/css/tailwind.css'],
+  css: ['~/assets/css/common.css'],
   app: {
     head: {
       meta: [

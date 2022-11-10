@@ -1,13 +1,4 @@
----
-title: 学node的一些杂记
-categories:
- - 前端
-tags:
- - npm生态
----
-
-
-### 杂记1
+# 杂记1
 
 研究了下`vue-cli`配置
 
@@ -41,11 +32,11 @@ tags:
 [参考链接1](https://www.cnblogs.com/tjyoung/p/7652930.html)
 [参考链接2](https://blog.csdn.net/hongchh/article/details/55113751)
 
-### 杂记2
+# 杂记2
 
  express服务器提供静态文件服务，不过它还使用了http-proxy-middleware，一个http请求代理的中间件。前端开发过程中需要使用到后台的API的话，可以通过配置proxyTable来将相应的后台请求代理到专用的API服务器。
 
-#### webpack--devtool中的7种模式
+## webpack--devtool中的7种模式
 
 模式 | 解释
 ---|---
@@ -62,9 +53,9 @@ cheap-module-source-map|生成一个没有列信息（column-mappings）的Sourc
 - 注2：
   - 如果你的modules里面已经包含了SourceMaps，你需要用source-map-loader 来和合并生成一个新的 SourceMaps。
 
-##### 7种模式的结果
+### 7种模式的结果
 
-###### eval
+#### eval
 
 ``` js{4}
 webpackJsonp([1],[  
@@ -93,7 +84,7 @@ eval 模式会把每个 module 封装到 eval 里包裹起来执行，并且会�
 
 Each module is executed with eval and //@ sourceURL.
 
-###### source-map
+#### source-map
 
 ``` js{4}
 webpackJsonp([1],[  
@@ -125,7 +116,7 @@ index.js.map文件：
 }
 ```
 
-###### hidden-source-map
+#### hidden-source-map
 
 ``` js{4}
 webpackJsonp([1],[  
@@ -142,7 +133,7 @@ function(e,t,i){...},
 
 但 output 目录下的 index.js.map 没有少
 
-###### inline-source-map
+#### inline-source-map
 
 ``` js{4}
 webpackJsonp([1],[  
@@ -157,7 +148,7 @@ function(e,t,i){...},
 
 可以看到末尾的注释 sourceMap 作为 DataURL 的形式被内嵌进了 bundle中，由于 sourceMap 的所有信息都被加到了bundle中，整个 bundle 文件变得硕大无比。
 
-###### eval-source-map
+#### eval-source-map
 
 ``` js{4}
 webpackJsonp([1],[  
@@ -184,7 +175,7 @@ eval(
 
 和 eval 类似，但是把注释里的 sourceMap 都转为了 DataURL。
 
-###### cheap-source-map
+#### cheap-source-map
 
 和 source-map 生成结果差不多。output 目录下的index.js内容一样。
 
@@ -201,7 +192,7 @@ eval(
 }
 ```
 
-###### cheap-module-source-map
+#### cheap-module-source-map
 
 ``` js{4}
 // index.js.map
@@ -214,7 +205,7 @@ eval(
 
 在 cheap-module-source-map 下 sourceMap 的内容更少了，sourceMap的列信息减少了，可以看到 sourcesContent 也没有了。
 
-##### 模式选择
+### 模式选择
 
 - 开发环境推荐：cheap-module-eval-source-map
 - 生产环境推荐：cheap-module-source-map
@@ -229,7 +220,7 @@ eval(
 
 4. 使用 eval-source-map 模式可以减少网络请求。这种模式开启 DataUrl 本身包含完整 sourcemap 信息，并不需要像 sourceURL 那样，浏览器需要发送一个完整请求去获取 sourcemap 文件，这会略微提高点效率。而生产环境中则不宜用 eval，这样会让文件变得极大。
 
-### 杂记3
+# 杂记3
 
 vue-cli官方为我们提供了5种模板
 
@@ -242,18 +233,18 @@ vue-cli官方为我们提供了5种模板
 
 - `simple`：一个最简单的单页应用模板。
 
-### 杂记4
+# 杂记4
 
-#### NODE_ENV
+## NODE_ENV
 
 > 许多 library 将通过与 process.env.NODE_ENV 环境变量关联，以决定 library 中应该引用哪些内容。例如，当不处于生产环境中时，某些 library 为了使调试变得容易，可能会添加额外的日志记录(log)和测试(test)。其实，当使用 process.env.NODE_ENV === 'production' 时，一些 library 可能针对具体用户的环境进行代码优化，从而删除或添加一些重要代码。
 > 技术上讲，NODE_ENV 是一个由 Node.js 暴露给执行脚本的系统环境变量。通常用于决定在开发环境与生产环境(dev-vs-prod)下，服务器工具、构建脚本和客户端 library 的行为。然而，与预期不同的是，无法在构建脚本 webpack.config.js 中，将 process.env.NODE_ENV 设置为 "production"，请查看 #2537。因此，例如 process.env.NODE_ENV === 'production' ? '[name].[hash].bundle.js' : '[name].bundle.js' 这样的条件语句，在 webpack 配置文件中，无法按照预期运行。
 
-#### process进程
+## process进程
 
 process模块用来与当前进程互动，可以通过全局变量process访问，不必使用require命令加载。它是一个EventEmitter对象的实例。
 
-##### 属性
+### 属性
 
 process对象提供一系列属性，用于返回系统信息。
 
@@ -268,7 +259,7 @@ process对象提供一系列属性，用于返回系统信息。
 - process.stdin：指向标准输入。
 - process.stderr：指向标准错误。
 
-###### 1. `stdout`
+#### 1. `stdout`
 
 process.stdout用来控制标准输出，也就是在命令行窗口向用户显示内容。它的write方法等同于console.log。
 
@@ -280,7 +271,7 @@ exports.log = function() {
 
 ```
 
-###### 2. `argv`
+#### 2. `argv`
 
 process.argv返回命令行脚本的各个参数组成的数组。
 
@@ -300,7 +291,7 @@ node argv.js a b c
 # [ 'node', '/path/to/argv.js', 'a', 'b', 'c' ]
 ```
 
-#### 方法
+## 方法
 
 `process`对象提供以下方法：
 
@@ -309,7 +300,7 @@ node argv.js a b c
 - `process.chdir()`：改变工作目录。
 - `process.nextTick()`：将一个回调函数放在下次事件循环的顶部。
 
-##### process.chdir()改变工作目录的例子
+### process.chdir()改变工作目录的例子
 
 ``` js{4}
 process.cwd()
@@ -321,7 +312,7 @@ process.cwd()
 # '/home/bbb'
 ```
 
-##### process.nextTick()的例子，指定下次事件循环首先运行的任务
+### process.nextTick()的例子，指定下次事件循环首先运行的任务
 
 ```js{4}
 
@@ -339,9 +330,9 @@ setTimeout(function () {
 }, 0)
 ```
 
-#### 事件
+## 事件
 
-##### `exit`事件
+### `exit`事件
 
 当前进程退出时，会触发exit事件，可以对该事件指定回调函数。这一个用来定时检查模块的状态的好钩子(hook)(例如单元测试),当主事件循环在执行完’exit’的回调函数后将不再执行,所以在exit事件中定义的定时器可能不会被加入事件列表.
 
@@ -352,7 +343,7 @@ process.on('exit', function () {
 });
 ```
 
-##### `uncaughtException`事件
+### `uncaughtException`事件
 
 当前进程抛出一个没有被捕捉的意外时，会触发uncaughtException事件。
 

@@ -1,27 +1,44 @@
 <script lang="ts" setup>
 const { navigation } = useContent()
-const appConfig = useAppConfig()
+// const appConfig = useAppConfig()
 </script>
 
 <template>
-  <div class="flex justify-between max-w-2xl px-4 py-4 mx-auto sm:px-8">
-    <!-- Navigation -->
-    <div class="text-primary-700 dark:text-primary-200">
-      <NuxtLink
-        v-for="link of navigation"
-        :key="link._path"
-        :to="link._path"
-        active-class="font-bold"
-        class="mr-6"
-      >
-        {{ link.title }}
+  <div class="navbar bg-base-100">
+    <div class="flex-1">
+      <NuxtLink class="btn-ghost btn text-xl normal-case" to="/">
+        <span class="uppercase">C</span>
+        <span class="uppercase text-base-content">SAY</span>
+        <span class="uppercase">C</span>
       </NuxtLink>
     </div>
-    <!-- Social icons & Color Mode -->
-    <div class="space-x-3 transition text-primary-500">
-      <a v-if="appConfig.socials?.twitter" :href="`https://twitter.com/${appConfig.socials?.twitter}`" title="Twitter" class="dark:text-primary-100 hover:text-primary-700 dark:hover:text-primary-300"><Icon name="fa-brands:twitter" class="w-5 h-5" /></a>
-      <a v-if="appConfig.socials?.github" :href="`https://github.com/${appConfig.socials?.github}`" title="GitHub" class="dark:text-primary-100 hover:text-primary-700 dark:hover:text-primary-300"><Icon name="fa-brands:github" class="w-5 h-5" /></a>
-      <ColorModeSwitch class="dark:text-primary-100 hover:text-primary-700 dark:hover:text-primary-300" />
+    <div class="flex-none">
+      <ul class="menu menu-horizontal p-0">
+        <li tabindex="0">
+          <a>
+            文章列表
+            <svg
+              class="fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
+              />
+            </svg>
+          </a>
+          <ul class="bg-base-100 shadow-lg">
+            <li v-for="link of navigation[1].children" :key="link._path">
+              <NuxtLink :to="link._path" active-class="font-bold" class="mr-6">
+                {{ link.title }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <ThemeChose></ThemeChose>
     </div>
   </div>
 </template>
