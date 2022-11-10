@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import { umSendPV } from '~~/composable/useUm'
 // const { navigation } = useContent()
 // const appConfig = useAppConfig()
+umSendPV()
 </script>
 
 <template>

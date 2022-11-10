@@ -1,12 +1,26 @@
 <script lang="ts" setup>
+import { umRecord } from '~~/composable/useUm'
+
 const { navigation } = useContent()
 // const appConfig = useAppConfig()
+const goHome = () => {
+  umRecord({
+    eventName: 'home_logo_click',
+    eventParams: {
+      host: window.location.host
+    }
+  })
+}
 </script>
 
 <template>
   <div class="navbar bg-base-100">
     <div class="flex-1">
-      <NuxtLink class="btn-ghost btn text-xl normal-case" to="/">
+      <NuxtLink
+        class="btn-ghost btn text-xl normal-case"
+        to="/"
+        @click="goHome"
+      >
         <span class="uppercase">C</span>
         <span class="uppercase text-base-content">SAY</span>
         <span class="uppercase">C</span>

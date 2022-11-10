@@ -35,7 +35,10 @@ export default defineNuxtConfig({
         }
       ],
       link: [],
-      script: []
+      script: [
+        // <script src="https://myawesome-lib.js"></script>
+        { src: '/js/um.js' }
+      ]
     }
   }
 })
