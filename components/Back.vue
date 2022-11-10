@@ -650,6 +650,8 @@
 </template>
 
 <script setup>
+// https://codepen.io/zhoocoo/pen/WNypEjR
+// https://github.com/greensock/GSAP
 import { gsap, ScrollTrigger } from 'gsap/all'
 gsap.registerPlugin(ScrollTrigger)
 const speed = 100
