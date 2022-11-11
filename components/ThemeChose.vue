@@ -7,23 +7,19 @@ onMounted(() => {
 const themeConfig = ref([
   'light',
   'dark',
-  'cupcake',
-  'emerald',
-  'corporate',
-  'synthwave',
-  'halloween',
-  'garden',
-  'forest',
-  'lofi',
-  'pastel',
-  'fantasy',
-  'wireframe',
-  'black',
-  'dracula',
-  'cmyk',
-  'lemonade',
-  'coffee',
-  'winter'
+  // 'cupcake',
+  // 'emerald',
+  // 'corporate',
+  // 'synthwave',
+  // 'halloween',
+  // 'forest',
+  // 'lofi',
+  // 'fantasy',
+  // 'dracula',
+  // 'cmyk',
+  // 'lemonade',
+  // 'coffee',
+  // 'winter'
 ])
 </script>
 

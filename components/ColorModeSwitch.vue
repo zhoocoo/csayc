@@ -8,7 +8,7 @@ const onClick = () =>
 
 <template>
   <button aria-label="Color Mode" class="inline-block w-5" @click="onClick">
-    <ColorScheme placeholder="...">
+    <ColorScheme>
       <Icon
         v-if="colorMode.value === 'dark'"
         name="ph:moon-bold"

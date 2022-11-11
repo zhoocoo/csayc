@@ -14,7 +14,7 @@ const goHome = () => {
 </script>
 
 <template>
-  <div class="navbar bg-base-100 fixed top-0 w-full z-50">
+  <div class="navbar bg-base-200 fixed top-0 w-full z-50">
     <div class="flex-1">
       <NuxtLink
         class="btn-ghost btn text-xl normal-case"

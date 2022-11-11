@@ -2,10 +2,12 @@
 
 <template>
   <div class="min-h-screen">
-    <Html lang="zh_cn" data-theme="dark" />
+    <Html lang="zh_cn" />
     <AppLoadingBar />
     <AppNavbar />
-    <slot />
+    <div class="pt-16">
+      <slot />
+    </div>
     <AppFooter />
   </div>
 </template>
