@@ -48,7 +48,8 @@ export default defineNuxtConfig({
       link: [],
       script: [
         // <script src="https://myawesome-lib.js"></script>
-        { src: '/js/um.js' }
+        { src: '/js/um.js' },
+        // { src: 'https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js' }
       ]
     }
   }

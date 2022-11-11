@@ -5,7 +5,7 @@
     <Html lang="zh_cn" />
     <AppLoadingBar />
     <AppNavbar />
-    <div class="pt-16">
+    <div class="min-h-screen pt-16">
       <slot />
     </div>
     <AppFooter />

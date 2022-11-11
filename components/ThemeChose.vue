@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { themeChange } from 'theme-change'
+const colorMode = useColorMode()
 
 onMounted(() => {
   themeChange(false)
+  console.log(localStorage.getItem('theme'))
+  colorMode.value = localStorage.getItem('theme') || 'light'
 })
 const themeConfig = ref([
   'light',
-  'dark',
+  'dark'
   // 'cupcake',
   // 'emerald',
   // 'corporate',
@@ -24,7 +27,7 @@ const themeConfig = ref([
 </script>
 
 <template>
-  <div class="dropdown-bottom dropdown-hover dropdown-end dropdown">
+  <div class="dropdown-hover dropdown-bottom dropdown-end dropdown">
     <label tabindex="0" class="btn-ghost btn"
       >🎨 主题
       <svg

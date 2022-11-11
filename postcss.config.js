@@ -15,8 +15,7 @@ export default {
     //   selectorBlackList: ['.norem'] // 过滤掉.norem-开头的class，不进行rem转换
     // },
     'postcss-import': {},
-    tailwindcss: {
-    },
-    '@tailwindcss/nesting': 'postcss-nesting'
+    tailwindcss: {},
+    'tailwindcss/nesting': {}
   }
 }
