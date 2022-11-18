@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { themeChange } from 'theme-change'
-const colorMode = useColorMode()
+import { setTheme } from '~~/composable/useTheme'
 
-onMounted(() => {
-  themeChange(false)
-  console.log(localStorage.getItem('theme'))
-  colorMode.value = localStorage.getItem('theme') || 'light'
-})
 const themeConfig = ref([
-  'light',
-  'dark'
+  {
+    value: 'light',
+    label: '白昼模式'
+  },
+  {
+    value: 'dark',
+    label: '暗夜模式'
+  }
   // 'cupcake',
   // 'emerald',
   // 'corporate',
@@ -45,8 +45,12 @@ const themeConfig = ref([
       data-choose-theme
       class="dropdown-content menu rounded-box menu-compact w-52 bg-base-100 p-2 shadow-lg"
     >
-      <li v-for="theme in themeConfig" :key="theme">
-        <a :data-set-theme="theme">{{ theme }}</a>
+      <li
+        v-for="theme in themeConfig"
+        :key="theme.value"
+        @click="setTheme(theme.value)"
+      >
+        <a :data-set-theme="theme.value">{{ theme.label }}</a>
       </li>
     </ul>
   </div>

@@ -1,8 +1,5 @@
-<script setup lang="ts"></script>
-
 <template>
   <div class="min-h-screen">
-    <Html lang="zh_cn" />
     <AppLoadingBar />
     <AppNavbar />
     <div class="min-h-screen pt-16">
