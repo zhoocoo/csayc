@@ -1,18 +1,25 @@
-import { themeChange } from 'theme-change'
 import jsCookie from 'js-cookie'
+
+export const useTheme = () => useState('theme')
+
 export function themeInit() {
   const appConfig = useAppConfig()
-  const theme = useCookie('_c_theme', {
-    default: () => appConfig.theme
-  })
   const colorMode = useColorMode()
-  onMounted(() => {
-    themeChange(false)
-    colorMode.value = theme.value
+  console.log(colorMode)
+  const theme = useCookie('theme', {
+    default: () => colorMode.value || appConfig.theme
   })
-  return () => useState('_c_theme', () => theme.value)
+  const themeState = useTheme()
+  themeState.value = theme.value
+  return themeState
 }
 
-export function setTheme(theme: string) {
-  jsCookie.set('_c_theme', theme)
+export type TThemeMap = 'system' | 'dark' | 'light'
+
+export function setTheme(theme: TThemeMap) {
+  const themeRef = useTheme()
+  const colorMode = useColorMode()
+  colorMode.preference = theme
+  themeRef.value = theme
+  jsCookie.set('theme', theme)
 }

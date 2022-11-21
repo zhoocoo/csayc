@@ -8,14 +8,16 @@ export default defineNuxtConfig({
   ],
   // https://color-mode.nuxtjs.org
   colorMode: {
-    classSuffix: ''
+    classSuffix: '',
+    preference: 'system', // default value of $colorMode.preference
+    fallback: 'light' // fallback value if not system preference found
   },
   // https://content.nuxtjs.org
   content: {
     documentDriven: true,
     highlight: {
       // See the available themes on https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-theme
-      theme: 'dracula'
+      theme: 'dark-plus'
     }
   },
   typescript: {
@@ -48,7 +50,7 @@ export default defineNuxtConfig({
       link: [],
       script: [
         // <script src="https://myawesome-lib.js"></script>
-        { src: '/js/um.js' },
+        { src: '/js/um.js' }
         // { src: 'https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js' }
       ]
     }

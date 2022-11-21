@@ -1,31 +1,3 @@
-<script setup lang="ts">
-import { setTheme } from '~~/composable/useTheme'
-
-const themeConfig = ref([
-  {
-    value: 'light',
-    label: '白昼模式'
-  },
-  {
-    value: 'dark',
-    label: '暗夜模式'
-  }
-  // 'cupcake',
-  // 'emerald',
-  // 'corporate',
-  // 'synthwave',
-  // 'halloween',
-  // 'forest',
-  // 'lofi',
-  // 'fantasy',
-  // 'dracula',
-  // 'cmyk',
-  // 'lemonade',
-  // 'coffee',
-  // 'winter'
-])
-</script>
-
 <template>
   <div class="dropdown-hover dropdown-bottom dropdown-end dropdown">
     <label tabindex="0" class="btn-ghost btn"
@@ -42,18 +14,56 @@ const themeConfig = ref([
     </label>
     <ul
       tabindex="0"
-      data-choose-theme
-      class="dropdown-content menu rounded-box menu-compact w-52 bg-base-100 p-2 shadow-lg"
+      class="dropdown-content menu rounded-box menu-compact w-40 bg-base-100 shadow-lg"
     >
       <li
         v-for="theme in themeConfig"
         :key="theme.value"
+        :class="{ bordered: activeTheme === theme.value }"
         @click="setTheme(theme.value)"
       >
-        <a :data-set-theme="theme.value">{{ theme.label }}</a>
+        <a>{{ theme.label }}</a>
       </li>
     </ul>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { setTheme, useTheme } from '~~/composable/useTheme'
+import type { TThemeMap } from '~~/composable/useTheme'
+
+const activeTheme = useTheme()
+
+const themeConfig = ref<
+  {
+    value: TThemeMap
+    label: string
+  }[]
+>([
+  {
+    value: 'light',
+    label: '白昼模式'
+  },
+  {
+    value: 'dark',
+    label: '暗夜模式'
+  },
+  {
+    value: 'system',
+    label: '跟随系统'
+  }
+  // 'cupcake',
+  // 'emerald',
+  // 'corporate',
+  // 'synthwave',
+  // 'halloween',
+  // 'forest',
+  // 'lofi',
+  // 'fantasy',
+  // 'dracula',
+  // 'cmyk',
+  // 'lemonade',
+  // 'coffee',
+  // 'winter'
+])
+</script>

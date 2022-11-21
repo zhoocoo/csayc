@@ -1,5 +1,5 @@
 <template>
-  <Html lang="zh_cn" :data-theme="theme" />
+  <Html lang="zh_cn" :data-theme="theme"/>
   <AppLayout>
     <NuxtPage />
   </AppLayout>
@@ -7,7 +7,6 @@
 
 <script setup lang="ts">
 import { themeInit } from '~~/composable/useTheme'
-
-const useTheme = themeInit()
-const theme = useTheme()
+const theme = themeInit()
+console.log(theme)
 </script>
