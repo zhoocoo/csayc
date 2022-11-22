@@ -9,8 +9,8 @@ export default defineNuxtConfig({
   // https://color-mode.nuxtjs.org
   colorMode: {
     classSuffix: '',
-    preference: 'system', // default value of $colorMode.preference
-    fallback: 'light' // fallback value if not system preference found
+    preference: 'dark', // default value of $colorMode.preference
+    fallback: 'cupcake' // fallback value if not system preference found
   },
   // https://content.nuxtjs.org
   content: {
@@ -29,13 +29,12 @@ export default defineNuxtConfig({
     },
     highlight: {
       // See the available themes on https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-theme
-      theme: 'dark-plus'
+      theme: 'slack-dark'
     }
   },
   typescript: {
     shim: false
   },
-  buildModules: ['@nuxtjs/tailwindcss'],
   nitro: {
     preset: 'node-server'
   },

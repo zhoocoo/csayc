@@ -5,3 +5,8 @@
     </slot>
   </main>
 </template>
+
+<script lang="ts" setup>
+import { umSendPV } from '~~/composable/useUm'
+umSendPV()
+</script>

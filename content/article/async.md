@@ -1,7 +1,7 @@
 ---
 title: 浅谈async和await
 categories:
- - 前端
+ - 前端基础
 tags:
  - js基础
 ---

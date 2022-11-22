@@ -41,7 +41,7 @@ const themeConfig = ref<
   }[]
 >([
   {
-    value: 'light',
+    value: 'cupcake',
     label: '白昼模式'
   },
   {

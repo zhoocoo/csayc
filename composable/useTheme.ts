@@ -14,7 +14,7 @@ export function themeInit() {
   return themeState
 }
 
-export type TThemeMap = 'system' | 'dark' | 'light'
+export type TThemeMap = 'system' | 'dark' | 'cupcake'
 
 export function setTheme(theme: TThemeMap) {
   const themeRef = useTheme()

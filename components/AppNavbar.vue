@@ -2,6 +2,7 @@
 import { umRecord } from '~~/composable/useUm'
 
 const { navigation } = useContent()
+console.log(navigation)
 // const appConfig = useAppConfig()
 const goHome = () => {
   umRecord({

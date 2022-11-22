@@ -1,7 +1,7 @@
 <!-- This component is used to show Markdown code block examples -->
 <template>
-  <div class="mockup-code">
-    <ContentSlot :use="$slots.default" />
+  <div class="mockup-code pb-0">
+    <slot />
   </div>
 </template>
 
@@ -25,4 +25,13 @@ const props = defineProps({
   }
 })
 
+console.log(props)
+
 </script>
+
+<style lang="postcss">
+pre code .line {
+  display: block;
+  min-height: 1rem;
+}
+</style>
