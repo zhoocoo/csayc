@@ -14,7 +14,19 @@ export default defineNuxtConfig({
   },
   // https://content.nuxtjs.org
   content: {
-    documentDriven: true,
+    documentDriven: {
+      layoutFallbacks: ['theme'],
+      globals: {
+        theme: {
+          where: [
+            {
+              _id: 'content:_theme.yml'
+            }
+          ],
+          without: ['_']
+        }
+      }
+    },
     highlight: {
       // See the available themes on https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-theme
       theme: 'dark-plus'

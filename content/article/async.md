@@ -18,9 +18,8 @@ tags:
 
 传统的回调
 
-``` js{4}
+``` javascript{3}
 setTimeout(callback,1000);
-
 function callback(){
     console.log("拿到结果了！");
 }
