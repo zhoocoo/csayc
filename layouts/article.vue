@@ -1,9 +1,13 @@
 <template>
   <main class="article-layout container mx-auto px-4">
     <article
-      class="prose max-w-none prose-code:p-0 prose-pre:m-0 prose-pre:py-0 prose-pre:pb-5 prose-pre:before:hidden dark:prose-invert"
+      class="prose mx-auto prose-code:p-0 prose-pre:m-0 prose-pre:py-0 prose-pre:pb-5 prose-pre:before:hidden dark:prose-invert"
     >
-      <ContentDoc />
+      <ContentDoc v-slot="{ doc }">
+        <h1>{{ doc.title }}</h1>
+        <img :src="doc.image?.src" :alt="doc.image?.alt" />
+        <ContentRenderer :value="doc" />
+      </ContentDoc>
     </article>
     <div class="divider"></div>
     <ArticlePagination></ArticlePagination>
