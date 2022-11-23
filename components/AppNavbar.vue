@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import { umRecord } from '~~/composable/useUm'
 
+const router = useRouter()
+const route = useRoute()
+
+const activeRoute = computed(() => route.path)
+
 const { navigation } = useContent()
 // const appConfig = useAppConfig()
 const goHome = () => {
@@ -11,10 +16,14 @@ const goHome = () => {
     }
   })
 }
+
+const handlerChange = (item: any) => {
+  router.push(item._path)
+}
 </script>
 
 <template>
-  <div class="navbar bg-base-200 fixed top-0 w-full z-50">
+  <div class="navbar fixed top-0 z-50 w-full bg-base-200">
     <div class="flex-1">
       <NuxtLink
         class="btn-ghost btn text-xl normal-case"
@@ -27,31 +36,14 @@ const goHome = () => {
       </NuxtLink>
     </div>
     <div class="flex-none">
-      <ul class="menu menu-horizontal p-0">
-        <li tabindex="0">
-          <a>
-            文章列表
-            <svg
-              class="fill-current"
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
-              />
-            </svg>
-          </a>
-          <ul class="bg-base-100 shadow-lg">
-            <li v-for="link of navigation[1].children" :key="link._path">
-              <NuxtLink :to="link._path" active-class="font-bold" class="mr-6">
-                {{ link.title }}
-              </NuxtLink>
-            </li>
-          </ul>
-        </li>
-      </ul>
+      <DrowpDown
+        v-model="activeRoute"
+        :list="navigation[1].children"
+        value-key="_path"
+        label-key="title"
+        @change="handlerChange"
+        >文章列表</DrowpDown
+      >
       <ThemeChose></ThemeChose>
     </div>
   </div>

@@ -8,20 +8,33 @@ export default defineNuxtConfig({
   ],
   // https://color-mode.nuxtjs.org
   colorMode: {
-    classSuffix: ''
+    classSuffix: '',
+    preference: 'dark', // default value of $colorMode.preference
+    fallback: 'cupcake' // fallback value if not system preference found
   },
   // https://content.nuxtjs.org
   content: {
-    documentDriven: true,
+    documentDriven: {
+      layoutFallbacks: ['theme'],
+      globals: {
+        theme: {
+          where: [
+            {
+              _id: 'content:_theme.yml'
+            }
+          ],
+          without: ['_']
+        }
+      }
+    },
     highlight: {
       // See the available themes on https://github.com/shikijs/shiki/blob/main/docs/themes.md#all-theme
-      theme: 'dracula'
+      theme: 'slack-dark'
     }
   },
   typescript: {
     shim: false
   },
-  buildModules: ['@nuxtjs/tailwindcss'],
   nitro: {
     preset: 'node-server'
   },
@@ -49,6 +62,7 @@ export default defineNuxtConfig({
       script: [
         // <script src="https://myawesome-lib.js"></script>
         { src: '/js/um.js' }
+        // { src: 'https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js' }
       ]
     }
   }
