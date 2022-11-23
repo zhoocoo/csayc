@@ -6,9 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { themeInit } from '~~/composable/useTheme'
-const { theme } = useContent().globals
-console.log(theme)
-const dataTheme = themeInit()
-console.log(theme)
+import { useTheme } from '~~/composable/useTheme'
+// const { theme } = useContent().globals
+const dataTheme = useTheme()
 </script>

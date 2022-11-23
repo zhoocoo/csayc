@@ -1,0 +1,404 @@
+---
+title: vue3如何编写一个v-model的hooks
+categories:
+  - 重学Vue3
+tags:
+  - Vue3
+  - composables
+  - v-model
+  - Vue
+---
+
+## 🍋 前言
+
+- 基础篇：简单介绍`vue3`的`setup`语法如何自定义`v-model`；
+- 进阶篇：如何提取`v-model`语法作为一个公用`hooks`；
+
+## 🍊 基础
+
+基础篇可绕过，只是对于官网给出的教程，进行了总结概括并给出`demo`
+
+### 基本的 v-model
+
+子组件中满足两个点，即可完成自定义双向绑定：
+
+- `props`中定义一个值`xxx`
+- `emit`中定义一个`update:xxx`事件
+
+下面我们来写一个最基本的`v-model`组件：
+
+1. `props`中定义一个`modelValue`值，并绑定到`input`的`value`属性上；
+2. `emit`中定义一个`update:modelValue`事件
+
+需要注意的是，当`modelValue`作为`props`传入，`update:modelValue`事件将被自动注册到`emit`事件中
+
+```html
+<template>
+  <input
+    type="text"
+    @input="emit('update:modelValue', $event.target.value)"
+    :value="props.modelValue"
+  />
+</template>
+
+<script setup>
+  const emit = defineEmits()
+  const props = defineProps({
+    modelValue: String
+  })
+</script>
+```
+
+父组件中，引入`modelComp`子组件，并绑定`test`值到`v-model`上，test 便完成了一次双向绑定。
+
+```html
+<template>
+  <modelComp v-model="test"></modelComp>
+</template>
+
+<script setup>
+  import { ref, watch } from 'vue'
+  import modelComp from './components/model/modelComp.vue'
+  const test = ref('')
+</script>
+```
+
+这便是一个最基本的自定义`v-model`组件；
+
+### 多个 v-model 绑定
+
+当我们需要多个双向绑定时，如下：
+
+```html
+<modelComp
+  v-model="test"
+  v-model:test1="test1"
+  v-model:test2="test2"
+></modelComp>
+
+<script setup>
+  import { ref, watch } from 'vue'
+  import modelComp from './components/model/modelComp.vue'
+  const test = ref('')
+  const test1 = ref('')
+  const test2 = ref('')
+</script>
+```
+
+子组件中，同样按着两个点来定义：
+
+1. `props`中定义两个值，`test1`和`test2`
+2. `emits`中定义两个事件，`update:test1`和`update:test2`
+
+```html
+<template>
+  <input
+    type="text"
+    @input="emit('update:modelValue', $event.target.value)"
+    :value="props.modelValue"
+  />
+  <input
+    type="text"
+    @input="emit('update:test1', $event.target.value)"
+    :value="props.test1"
+  />
+  <input
+    type="text"
+    @input="emit('update:test2', $event.target.value)"
+    :value="props.test2"
+  />
+</template>
+
+<script setup>
+  const emit = defineEmits([
+    'update:modelValue',
+    'update:test1',
+    'update:test2'
+  ])
+  const props = defineProps({
+    modelValue: String,
+    test1: String,
+    test2: String
+  })
+</script>
+```
+
+### v-model 修饰符
+
+`vue`提供了一些`v-model`[修饰符](https://v3.cn.vuejs.org/guide/forms.html#lazy)，我们可以在`v-model`中使用他们：
+
+```html
+<modelComp
+  v-model.trim="test"
+  v-model:test1.lazy="test1"
+  v-model:test2.trim.lazy="test2"
+></modelComp>
+```
+
+在一些场景下，我们需要自己定义修饰符，来满足我们的需求，举个栗子：
+
+```html
+<modelComp v-model.a="test" v-model:test1.b.c="test1"></modelComp>
+```
+
+默认`v-model`中我们绑定了`a`修饰符，`v-model:test1`中则绑定`b`和`c`两个修饰符;
+
+对于修饰符，我们需要满足以下条件：
+
+- 对于默认`v-model`来说，需要`props`中定义两个值
+  - `modelValue`
+  - `modelModifiers`，接受修饰符`key`值
+- 对于自定义`v-model:xxx`来说，`props`中：
+  - `xxx`
+  - `xxxModeifiers`，接受修饰符`key`值
+
+由此，上代码：
+
+```html
+<template>
+  <input type="text" @input="vModelInput" :value="props.modelValue" />
+  <input type="text" @input="vModelTest1" :value="props.test1" />
+</template>
+
+<script setup>
+  const emit = defineEmits(['update:modelValue', 'update:test1'])
+  const props = defineProps({
+    modelValue: String,
+    //接受v-model的修饰符
+    modelModifiers: {
+      default: () => ({})
+    },
+    test1: String,
+    //接受v-model:test1的修饰符
+    test1Modifiers: {
+      default: () => ({})
+    }
+  })
+
+  const vModelInput = (e) => {
+    let value = e.target.value
+    console.log(props.modelModifiers)
+    //{a:true}
+    if (props.modelModifiers.a) {
+      //处理value值
+    }
+    emit('update:modelValue', value)
+  }
+
+  const vModelTest1 = (e) => {
+    let value = e.target.value
+    console.log(props.test1Modifiers)
+    //{b:true,c:true}
+    if (props.modelModifiers.b) {
+      //处理value值
+    }
+    if (props.modelModifiers.c) {
+      //处理value值
+    }
+    emit('update:test1', value)
+  }
+</script>
+```
+
+## 🍇 进阶
+
+### 问题背景
+
+基础篇中已经讲解了如何封装一个自定义`v-model`的组件，可是在实际开发中，子组件中使用`@input`和`:value`来绑定我们的值，会比较麻烦，有没有更简单的办法呢？
+
+我们通常想要对需要双向绑定的子组件，直接进行`v-model`绑定：
+
+```html
+<!-- 子组件 -->
+<input type="text" v-model="xxx" />
+```
+
+问题来了，在子组件中接受到父组件的传值时，`xxx`我们应该绑定谁？直接绑定`props.modelValue`么？
+
+```html
+<!-- 子组件 -->
+<input type="text" v-model="props.modelValue" />
+```
+
+我们会得到一个错误：
+
+```bash
+⚠️reactivity.esm-bundler.js:512 Set operation on key "modelValue" failed: target is readonly.
+```
+
+因为`props`是一个`readonly`的值(`isReadonly(props) === true`)，所以我们不能直接这么使用
+
+所以，我们是需要一个中间值来绑定`v-model`
+
+### 方式一：通过`watch`中转
+
+借助内部变量绑定`v-model`，使用`watch`监听它，并同步数据`props.xxx`
+
+```html
+<!-- 子组件 -->
+<template>
+  <input type="text" v-model="proxy" />
+</template>
+
+<script setup>
+  import { ref, watch } from 'vue'
+  const emit = defineEmits()
+  const props = defineProps({
+    modelValue: String
+  })
+
+  const proxy = ref(props.modelValue)
+
+  watch(
+    () => proxy.value,
+    (v) => emit('update:modelValue', v)
+  )
+</script>
+```
+
+因为有时候我们双向绑定的可能是一个对象或者数组，因此我们可以使用`watch`里的`deep`选项来深度监听并同步`proxy`;
+
+```js
+watch(
+  () => proxy.value,
+  (v) => emit('update:modelValue', v),
+  { deep: true }
+)
+```
+
+当然，`props.modelValue`可能存在默认值传入，所以我们也可以加上`immediate`选项，使得组件在创建时，就直接给`proxy`赋上默认值；
+
+### 方式二：`computed`的`get`和`set`
+
+我们也可以借助`computed`提供的`get`和`set`来进行数据同步
+
+```html
+const proxy = computed({ get() { return props.modelValue; }, set(v) {
+emit("update:modelValue", v); }, });
+```
+
+## 🍓 终极：封装`v-model`的 hooks
+
+我们先来提取`watch`这种方式，将其封装为一个`hooks`
+
+```html
+<!-- 子组件 -->
+<template>
+  <input type="text" v-model="proxy" />
+</template>
+
+<script setup>
+  import { ref, watch, computed } from 'vue'
+  const emit = defineEmits()
+  const props = defineProps({
+    modelValue: String
+  })
+
+  const proxy = ref(props.modelValue)
+
+  watch(
+    () => proxy.value,
+    (v) => emit('update:modelValue', v)
+  )
+</script>
+```
+
+在子组件中，我们用`v-model`在`input`上绑定了一个内部值`proxy`，并以`props.modelValue`的值初始化`proxy`变量(`ref(props.modelValue)`)；
+
+在`watch`中，我们监听`input`上的绑定值`proxy`，在`input`进行输入其值变化时，向外分发`emit('update:modelValue',v)`事件，将改变的值动态传到外部组件上
+
+### 提取公用逻辑
+
+```js
+// useVmodel1.js
+import { ref, watch } from 'vue'
+export function useVmodel(props, emit) {
+  const proxy = ref(props.modelValue)
+  watch(
+    () => proxy.value,
+    (v) => emit('update:modelValue', v)
+  )
+  return proxy
+}
+```
+
+一个最简单的`hooks`便被封装好了；
+
+```html
+<template>
+  <input type="text" v-model="proxy" />
+</template>
+
+<script setup>
+  import { ref, watch, computed } from 'vue'
+  import { useVmodel } from './hooks/useVmodel1'
+  const emit = defineEmits()
+  const props = defineProps({
+    modelValue: String
+  })
+  const proxy = useVmodel(props, emit)
+</script>
+```
+
+### 继续抽离封装
+
+考虑到以下几个点，继续进行抽离封装：
+
+- `emit`可以不传，更简洁的调用方式
+- 多个`v-model:test1`这种情况的事件，`emit("update:xxxx")`中的`xxxx`事件名需要提取
+
+我们可以通过`vue3`提供的`getCurrentInstance`方法，获取当前的组件实例，而`modelValue`可覆盖，则抽取成变量:
+
+```js
+//useVmodel2.js
+import { ref, watch, getCurrentInstance } from 'vue'
+export function useVmodel(props, key = 'modelValue', emit) {
+  const vm = getCurrentInstance()
+  const _emit = emit || vm?.emit
+  const event = `update:${key}`
+  const proxy = ref(props[key])
+  watch(
+    () => proxy.value,
+    (v) => _emit(event, v)
+  )
+  return proxy
+}
+```
+
+好了，现在我们可以更简单的调用我们的`hooks`了：
+
+```html
+<!-- 子组件 childModel -->
+<template>
+  <input type="text" v-model="modelValue" />
+  <input type="text" v-model="test" />
+</template>
+
+<script setup>
+  import { useVmodel } from './hooks/useVmodel2'
+  const emit = defineEmits()
+  const props = defineProps({
+    modelValue: String,
+    test: String
+  })
+  const modelValue = useVmodel(props)
+  const test = useVmodel(props, 'test')
+</script>
+
+<!-- 父组件 -->
+<template>
+  <Model v-model="modelValue" v-model:test="test" />
+</template>
+
+<script setup>
+  import { ref, watch } from 'vue'
+  import Model from './childModel.vue'
+
+  const modelValue = ref('')
+  const test = ref('')
+</script>
+```
+
+### 最后
+
+封装`computed`这种方式本文暂不赘述，小伙伴们可进行自行封装抽离，欢迎一起讨论...

@@ -25,8 +25,6 @@ const props = defineProps({
   }
 })
 
-console.log(props)
-
 </script>
 
 <style lang="postcss">
