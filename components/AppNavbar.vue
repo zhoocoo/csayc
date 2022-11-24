@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { umRecord } from '~~/composable/useUm'
+import { useImmerseRead } from '~~/composable/useArticle'
+const isImmerseRead = useImmerseRead()
 
 const router = useRouter()
-const route = useRoute()
-
-const activeRoute = computed(() => route.path)
 
 const {
   navigation,
@@ -37,10 +36,14 @@ const goHome = () => {
 const handlerChange = (item: any) => {
   router.push(item._path)
 }
+
 </script>
 
 <template>
-  <div class="navbar fixed top-0 z-50 w-full bg-base-200">
+  <div
+    v-show="!isImmerseRead"
+    class="navbar fixed top-0 z-50 w-full bg-base-200"
+  >
     <div class="flex-1">
       <NuxtLink
         class="btn btn-ghost text-xl normal-case"

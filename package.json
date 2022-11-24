@@ -13,6 +13,7 @@
     "@types/js-cookie": "^3.0.2",
     "@vueuse/core": "^9.6.0",
     "daisyui": "^2.38.0",
+    "date-fns": "^2.29.3",
     "gsap": "^3.11.3",
     "js-cookie": "^3.0.1",
     "magic-grid": "^3.2.4",
