@@ -29,16 +29,9 @@ const showTime = ref('')
 useInterval(1000, {
   controls: true,
   callback: (count) => {
-    console.log(count)
-    showTime.value = formatDuration(
-      {
-        seconds: count
-      },
-      {
-        format: ['minutes']
-      }
-    )
-    console.log(showTime.value)
+    showTime.value = formatDuration({
+      seconds: count
+    })
   }
 })
 
