@@ -5,23 +5,32 @@
       class="prose relative mx-auto max-w-3xl px-5 py-10 shadow-2xl prose-code:p-0 prose-pre:m-0 prose-pre:py-0 prose-pre:pb-5 prose-pre:before:hidden dark:prose-invert"
     >
       <ContentDoc v-slot="{ doc }">
-        <div class="flex justify-between items-center">
-          <ProseH1 :id="$route.fullPath" class="mb-10">{{ doc.title }}</ProseH1>
+        <ProseH1 :id="$route.fullPath" class="mb-0">{{ doc.title }}</ProseH1>
+        <div class="flex items-start justify-between pt-3">
+          <div>
+            <ArticleDescPanel class="mb-3">{{
+              doc.description
+            }}</ArticleDescPanel>
+            <div v-if="!isImmerseRead">
+              <div
+                v-for="(item, index) in doc.tags"
+                :key="item + index"
+                class="badge-accent badge-outline badge mx-1 whitespace-nowrap first:ml-0"
+              >
+                {{ item }}
+              </div>
+            </div>
+          </div>
           <ArticleFocusPanel
             v-if="isImmerseRead"
             class="sticky top-4 ml-3 flex-shrink-0"
           ></ArticleFocusPanel>
         </div>
-        <div>
-          <div
-            v-for="(item, index) in doc.tags"
-            :key="item + index"
-            class="badge-accent badge-outline badge mx-1 first:ml-0"
-          >
-            {{ item }}
-          </div>
-        </div>
-        <ProseImg :src="doc.image?.src" :alt="doc.image?.alt" />
+        <ProseImg
+          v-if="!isImmerseRead"
+          :src="doc.image?.src"
+          :alt="doc.image?.alt"
+        />
         <ContentRenderer :value="doc" />
       </ContentDoc>
       <ArticleRightMenu v-show="!isImmerseRead"></ArticleRightMenu>

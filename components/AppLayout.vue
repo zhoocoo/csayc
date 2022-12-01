@@ -3,10 +3,10 @@
     <AppLoadingBar />
     <AppNavbar />
     <div
-      :class="{
-        'pt-0': isImmerseRead
-      }"
       class="min-h-screen pt-16"
+      :class="{
+        '!pt-0': isImmerseRead
+      }"
     >
       <slot />
     </div>
