@@ -4,6 +4,7 @@
       :class="immerseReadClasses"
       class="prose relative mx-auto my-4 max-w-3xl px-5 py-10 shadow-2xl prose-code:p-0 prose-pre:m-0 prose-pre:py-0 prose-pre:pb-5 prose-pre:before:hidden dark:prose-invert"
     >
+      <ArticleLeftMenu v-show="!isImmerseRead"></ArticleLeftMenu>
       <ContentDoc v-slot="{ doc }">
         <div
           class="flex flex-col items-center justify-center md:flex md:flex-row md:justify-between"
@@ -19,14 +20,14 @@
           ></ArticleFocusPanel>
         </div>
         <div>
-          <ArticleDescPanel class="my-3">{{
+          <ArticleDescPanel v-if="doc.description" class="my-3">{{
             doc.description
           }}</ArticleDescPanel>
           <div v-if="!isImmerseRead">
             <div
               v-for="(item, index) in doc.tags"
               :key="item + index"
-              class="badge-ghost badge text-xs mx-1 whitespace-nowrap first:ml-0"
+              class="badge-ghost badge mx-1 whitespace-nowrap text-xs first:ml-0"
             >
               {{ item }}
             </div>
@@ -40,7 +41,7 @@
         />
         <ContentRenderer :value="doc" />
       </ContentDoc>
-      <ArticleRightMenu v-show="!isImmerseRead"></ArticleRightMenu>
+      <ArticleRightPanel v-show="!isImmerseRead"></ArticleRightPanel>
     </article>
     <div class="divider"></div>
     <ArticlePagination></ArticlePagination>
@@ -48,7 +49,6 @@
 </template>
 
 <script lang="ts">
-import type { Ref } from 'vue'
 import { useImmerseRead } from '~~/composable/useArticle'
 import { umSendPV } from '~~/composable/useUm'
 

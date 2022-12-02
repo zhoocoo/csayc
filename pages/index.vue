@@ -2,6 +2,25 @@
   <div class="home">
     <main class="mx-auto">
       <Back></Back>
+      <div class="hero fixed top-0 left-0 h-screen">
+        <div class="hero-content text-center">
+          <div class="relative max-w-md">
+            <h1 class="font-mono text-5xl font-bold text-slate-600">
+              WELCOME TO MY BLOG
+            </h1>
+            <p class="py-6 font-mono text-slate-500">
+              学习并分享前端技术等WEB知识，记录生活的点点滴滴，是一个互联网从业者值得收藏的网站。
+            </p>
+            <button class="btn">关于我自己</button>
+            <div class="flex items-center justify-center mt-6">
+              <Icon
+                class="h-20 w-20 animate-bounce text-slate-500"
+                name="heroicons-outline:chevron-double-down"
+              ></Icon>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </template>
