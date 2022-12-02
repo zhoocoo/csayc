@@ -1,6 +1,6 @@
 <template>
-  <div class="stats bg-info-content text-primary-content">
-    <div class="stat">
+  <div class="stats">
+    <div class="not-prose stat flex shadow-sm md:block">
       <div class="stat-title">
         <div class="flex justify-center gap-5">
           <div v-if="showTime.days">
@@ -30,8 +30,11 @@
         </div>
       </div>
 
-      <div class="stat-actions flex justify-center">
-        <button class="btn-success btn-sm btn" @click="quitImmerseRead">
+      <div class="stat-actions mt-0 flex items-center justify-center md:mt-4">
+        <button
+          class="btn-success btn-sm btn text-ellipsis"
+          @click="quitImmerseRead"
+        >
           退出沉浸式阅读
         </button>
       </div>

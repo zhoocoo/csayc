@@ -7,22 +7,22 @@ const router = useRouter()
 
 const {
   navigation,
-  page,
-  // Computed properties from `page` key
-  excerpt,
-  toc,
-  type,
-  layout
+  // page,
+  // // Computed properties from `page` key
+  // excerpt,
+  // toc,
+  // type,
+  // layout
 } = useContent()
-console.log(
-  navigation,
-  page,
-  // Computed properties from `page` key
-  excerpt,
-  toc,
-  type,
-  layout
-)
+// console.log(
+//   navigation,
+//   page,
+//   // Computed properties from `page` key
+//   excerpt,
+//   toc,
+//   type,
+//   layout
+// )
 // const appConfig = useAppConfig()
 const goHome = () => {
   umRecord({
