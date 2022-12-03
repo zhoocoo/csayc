@@ -1,48 +1,54 @@
 <template>
-  <main class="article-layout container relative mx-auto">
-    <article
-      :class="immerseReadClasses"
-      class="prose relative mx-auto my-4 max-w-3xl px-5 py-10 shadow-2xl prose-code:p-0 prose-pre:m-0 prose-pre:py-0 prose-pre:pb-5 prose-pre:before:hidden dark:prose-invert"
-    >
-      <ArticleLeftMenu v-show="!isImmerseRead"></ArticleLeftMenu>
-      <ContentDoc v-slot="{ doc }">
-        <div
-          class="flex flex-col items-center justify-center md:flex md:flex-row md:justify-between"
-        >
-          <ProseH1
-            :id="$route.fullPath"
-            class="not-prose mb-0 w-full flex-1 line-clamp-2"
-            >{{ doc.title }}</ProseH1
+  <main class="article-layout container relative mx-auto min-h-screen px-5">
+    <div class="relative mx-auto flex max-w-5xl justify-between">
+      <ArticleLeftMenu
+        v-show="!isImmerseRead"
+        class="hidden lg:flex"
+      ></ArticleLeftMenu>
+      <article :class="immerseReadClasses" class="article-main">
+        <ContentDoc v-slot="{ doc }">
+          <div
+            class="flex flex-col items-center justify-center md:flex md:flex-row md:justify-between"
           >
-          <ArticleFocusPanel
-            v-if="isImmerseRead"
-            class="sticky top-4 ml-3 shrink-0"
-          ></ArticleFocusPanel>
-        </div>
-        <div>
-          <ArticleDescPanel v-if="doc.description" class="my-3">{{
-            doc.description
-          }}</ArticleDescPanel>
-          <div v-if="!isImmerseRead">
-            <div
-              v-for="(item, index) in doc.tags"
-              :key="item + index"
-              class="badge-ghost badge mx-1 whitespace-nowrap text-xs first:ml-0"
+            <ProseH1
+              :id="$route.fullPath"
+              class="not-prose mb-0 w-full flex-1 line-clamp-2"
+              >{{ doc.title }}</ProseH1
             >
-              {{ item }}
+            <ArticleFocusPanel
+              v-if="isImmerseRead"
+              class="sticky top-4 ml-3 shrink-0"
+            ></ArticleFocusPanel>
+          </div>
+          <div>
+            <ArticleDescPanel v-if="doc.description" class="my-3">{{
+              doc.description
+            }}</ArticleDescPanel>
+            <div v-if="!isImmerseRead">
+              <div
+                v-for="(item, index) in doc.tags"
+                :key="item + index"
+                class="badge-ghost badge mx-1 whitespace-nowrap text-xs first:ml-0"
+              >
+                {{ item }}
+              </div>
             </div>
           </div>
-        </div>
 
-        <ProseImg
-          v-if="!isImmerseRead"
-          :src="doc.image?.src"
-          :alt="doc.image?.alt"
-        />
-        <ContentRenderer :value="doc" />
-      </ContentDoc>
-      <ArticleRightPanel v-show="!isImmerseRead"></ArticleRightPanel>
-    </article>
+          <ProseImg
+            v-if="!isImmerseRead"
+            :src="doc.image?.src"
+            :alt="doc.image?.alt"
+          />
+          <ContentRenderer :value="doc" />
+        </ContentDoc>
+      </article>
+      <ArticleRightPanel
+        v-show="!isImmerseRead"
+        class="hidden shrink-0 lg:flex"
+      ></ArticleRightPanel>
+    </div>
+
     <div class="divider"></div>
     <ArticlePagination></ArticlePagination>
   </main>
@@ -72,3 +78,12 @@ const immerseReadClasses = computed(() => {
   return {}
 })
 </script>
+
+<style lang="postcss">
+.article-layout {
+  article.article-main {
+    @apply prose prose-code:p-0 prose-pre:m-0 prose-pre:py-0 prose-pre:pb-5 prose-pre:before:hidden dark:prose-invert;
+    @apply my-4 min-h-screen  w-full max-w-4xl flex-1 px-5 py-10 md:shadow-2xl;
+  }
+}
+</style>

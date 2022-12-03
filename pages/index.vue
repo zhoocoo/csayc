@@ -11,8 +11,8 @@
             <p class="py-6 font-mono text-slate-500">
               学习并分享前端技术等WEB知识，记录生活的点点滴滴，是一个互联网从业者值得收藏的网站。
             </p>
-            <button class="btn">关于我自己</button>
-            <div class="flex items-center justify-center mt-6">
+            <button class="btn"><nuxt-link to="/about">开始</nuxt-link></button>
+            <div class="mt-6 flex items-center justify-center">
               <Icon
                 class="h-20 w-20 animate-bounce text-slate-500"
                 name="heroicons-outline:chevron-double-down"
