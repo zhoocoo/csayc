@@ -12,6 +12,8 @@
     "@nuxtjs/color-mode": "^3.1.8",
     "@types/js-cookie": "^3.0.2",
     "@vueuse/core": "^9.6.0",
+    "@vueuse/math": "^9.6.0",
+    "@vueuse/router": "^9.6.0",
     "daisyui": "^2.38.0",
     "date-fns": "^2.29.3",
     "gsap": "^3.11.3",

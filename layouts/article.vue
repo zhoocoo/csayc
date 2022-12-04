@@ -83,7 +83,7 @@ const immerseReadClasses = computed(() => {
 .article-layout {
   article.article-main {
     @apply prose prose-code:p-0 prose-pre:m-0 prose-pre:py-0 prose-pre:pb-5 prose-pre:before:hidden dark:prose-invert;
-    @apply my-4 min-h-screen  w-full max-w-4xl flex-1 px-5 py-10 md:shadow-2xl;
+    @apply my-4 min-h-screen w-full  max-w-4xl flex-1 border-0 px-5 py-10 shadow-none md:border md:border-base-200 md:shadow;
   }
 }
 </style>
