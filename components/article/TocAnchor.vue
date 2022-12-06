@@ -1,5 +1,5 @@
 <template>
-  <div class="tocAnchor">
+  <div ref="tocAnchor" class="tocAnchor">
     <ul v-if="toc && toc.links">
       <li
         v-for="link in toc.links"
@@ -10,6 +10,7 @@
           :href="`#${link.id}`"
           :class="{ activeLink: search === `#${link.id}` }"
           class="block leading-6"
+          @click.prevent="handlerAnchorToc(link.id)"
         >
           {{ link.text }}
         </a>
@@ -26,6 +27,7 @@
                 activeLink: search === `#${sublink.id}`,
                 subactiveLink: search === `#${sublink.id}`
               }"
+              @click.prevent="handlerAnchorToc(sublink.id)"
             >
               {{ sublink.text }}
             </a>
@@ -37,19 +39,69 @@
 </template>
 
 <script setup lang="ts">
-import { useScroll, useElementBounding } from '@vueuse/core'
+import { useIntersectionObserver } from '@vueuse/core'
 import { useRouteHash } from '@vueuse/router'
 
 const { toc } = useContent()
 
-const el = ref<HTMLElement | null>()
-onMounted(() => {
-  el.value = document.documentElement
-})
-
-const { x, y, isScrolling, arrivedState, directions } = useScroll(el)
+const tocAnchor = ref<HTMLElement | null>()
 
 const search = useRouteHash()
+
+onMounted(() => {
+  const article = document.querySelector('article')
+  if (article && toc.links) {
+    const els = []
+    toc.links.forEach((link: any[]) => {
+      const dom = document.getElementById(link.id)
+      if (dom) {
+        els.push(dom)
+      }
+      if (link.children && Array.isArray(link.children)) {
+        link.children.links.forEach((sublink: any[]) => {
+          const dom = document.getElementById(sublink.id)
+          if (dom) {
+            els.push(dom)
+          }
+        })
+      }
+    })
+  }
+})
+
+// const { stop } = useIntersectionObserver(
+//   target,
+//   ([{ isIntersecting }], observerElement) => {
+//     targetIsVisible.value = isIntersecting
+//   }
+// )
+
+const handlerAnchorToc = (id: string) => {
+  const root = document.documentElement
+  const el = document.getElementById(id)
+  if (el) {
+    // search.value = `#${id}`
+    root.scrollTo({
+      top: el?.offsetTop,
+      behavior: 'smooth'
+    })
+  }
+}
+
+watch(
+  search,
+  (val) => {
+    const id = val.slice(1)
+    if (process.client) {
+      nextTick(() => {
+        handlerAnchorToc(id)
+      })
+    }
+  },
+  {
+    immediate: true
+  }
+)
 </script>
 
 <style lang="postcss">

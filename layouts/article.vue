@@ -1,6 +1,8 @@
 <template>
-  <main class="article-layout container relative mx-auto min-h-screen px-5">
-    <div class="relative mx-auto flex max-w-5xl justify-between">
+  <main
+    class="article-layout container relative mx-auto -mt-16 min-h-screen px-5 pt-16"
+  >
+    <div class="relative mx-auto flex justify-between">
       <ArticleLeftMenu
         v-show="!isImmerseRead"
         class="hidden lg:flex"
@@ -46,7 +48,8 @@
       <ArticleRightPanel
         v-show="!isImmerseRead"
         class="hidden shrink-0 lg:flex"
-      ></ArticleRightPanel>
+      >
+      </ArticleRightPanel>
     </div>
 
     <div class="divider"></div>
@@ -55,6 +58,7 @@
 </template>
 
 <script lang="ts">
+// import { useWindowScroll, useScroll } from '@vueuse/core'
 import { useImmerseRead } from '~~/composable/useArticle'
 import { umSendPV } from '~~/composable/useUm'
 
@@ -83,7 +87,7 @@ const immerseReadClasses = computed(() => {
 .article-layout {
   article.article-main {
     @apply prose prose-code:p-0 prose-pre:m-0 prose-pre:py-0 prose-pre:pb-5 prose-pre:before:hidden dark:prose-invert;
-    @apply my-4 min-h-screen w-full  max-w-4xl flex-1 border-0 px-5 py-10 shadow-none md:border md:border-base-200 md:shadow;
+    @apply my-4 min-h-screen w-1 max-w-none flex-1 border-0 px-5 py-10 shadow-none md:border md:border-base-200 md:shadow;
   }
 }
 </style>
