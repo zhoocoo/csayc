@@ -20,7 +20,6 @@ const props = defineProps({
 })
 
 const rootStyle = computed(() => {
-  console.log('width', width.value, 'height', height.value)
   if (!width.value || !height.value) return {}
   return {
     width: width.value + 'px',
@@ -39,7 +38,6 @@ const threshold = computed(() => {
       document.documentElement
     ).fontSize
     threshold = offsetTop * parseFloat(rootFontSize)
-    console.log(threshold)
   } else {
     threshold = offsetTop
   }

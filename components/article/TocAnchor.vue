@@ -8,7 +8,7 @@
       >
         <a
           :href="`#${link.id}`"
-          :class="{ activeLink: search === `#${link.id}` }"
+          :class="{ activeLink: scrollId === `#${link.id}` }"
           class="block leading-6"
           @click.prevent="handlerAnchorToc(link.id)"
         >
@@ -24,8 +24,8 @@
               :href="`#${sublink.id}`"
               class="block leading-6"
               :class="{
-                activeLink: search === `#${sublink.id}`,
-                subactiveLink: search === `#${sublink.id}`
+                activeLink: scrollId === `#${sublink.id}`,
+                subactiveLink: scrollId === `#${sublink.id}`
               }"
               @click.prevent="handlerAnchorToc(sublink.id)"
             >
@@ -39,14 +39,21 @@
 </template>
 
 <script setup lang="ts">
-import { useIntersectionObserver } from '@vueuse/core'
+// import { useIntersectionObserver } from '@vueuse/core'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useRouteHash } from '@vueuse/router'
-
+gsap.registerPlugin(ScrollTrigger)
 const { toc } = useContent()
 
 const tocAnchor = ref<HTMLElement | null>()
 
 const search = useRouteHash()
+const scrollId = ref(search.value)
+
+// const active = computed(() => {
+//   return search.value || scrollId.value
+// })
 
 onMounted(() => {
   const article = document.querySelector('article')
@@ -67,6 +74,31 @@ onMounted(() => {
       }
     })
   }
+})
+
+onMounted(() => {
+  const q = gsap.utils.selector('#article-content')
+  const titles = q('h2,h3')
+  titles.forEach((dom) => {
+    gsap.to(dom, {
+      scrollTrigger: {
+        trigger: dom,
+        start: 'center 68px',
+        end: 'center 100%',
+        scrub: true,
+        markers: true,
+        onEnter(self) {
+          console.log('onEnter', self.trigger?.id)
+          scrollId.value = `#${self.trigger?.id}`
+        },
+        onEnterBack(self) {
+          scrollId.value = `#${self.trigger?.id}`
+          console.log('onEnterBack', self.trigger?.id)
+        }
+      },
+      x: 10
+    })
+  })
 })
 
 // const { stop } = useIntersectionObserver(

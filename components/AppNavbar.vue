@@ -1,12 +1,27 @@
 <script lang="ts" setup>
+// import { gsap } from 'gsap'
+// import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { umRecord } from '~~/composable/useUm'
 import { useImmerseRead } from '~~/composable/useArticle'
+// gsap.registerPlugin(ScrollTrigger)
+// onMounted(() => {
+//   gsap.to(`#top-nav`, {
+//     scrollTrigger: {
+//       trigger: `#top-nav`,
+//       start: 'center center',
+//       end: 'center 100%',
+//       scrub: true,
+//       markers: true
+//     },
+//     y: -68
+//   })
+// })
 const isImmerseRead = useImmerseRead()
 
 const router = useRouter()
 
 const {
-  navigation,
+  navigation
   // page,
   // // Computed properties from `page` key
   // excerpt,
@@ -36,17 +51,17 @@ const goHome = () => {
 const handlerChange = (item: any) => {
   router.push(item._path)
 }
-
 </script>
 
 <template>
   <div
     v-show="!isImmerseRead"
+    id="top-nav"
     class="navbar fixed top-0 z-50 w-full bg-base-200"
   >
     <div class="flex-1">
       <NuxtLink
-        class="btn btn-ghost text-xl normal-case"
+        class="btn-ghost btn text-xl normal-case"
         to="/"
         @click="goHome"
       >
