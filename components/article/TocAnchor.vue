@@ -6,7 +6,14 @@
         :key="link.text"
         class="my-3 first:mt-0 last:mb-0"
       >
-        <a :href="`#${link.id}`" data-link-type="first" class="block leading-6">
+        <a
+          :href="`#${link.id}`"
+          data-link-type="first"
+          class="block leading-6"
+          :class="{
+            activeLink: activeToc === `#${link.id}`
+          }"
+        >
           {{ link.text }}
         </a>
         <ul v-if="link.children" class="pl-6">
@@ -18,6 +25,10 @@
             <a
               :href="`#${sublink.id}`"
               class="block leading-6"
+              :class="{
+                activeLink: activeToc === `#${sublink.id}`,
+                subactiveLink: activeToc === `#${sublink.id}`
+              }"
               data-link-type="second"
             >
               {{ sublink.text }}
@@ -31,56 +42,23 @@
 
 <script setup lang="ts">
 // import { useIntersectionObserver } from '@vueuse/core'
-import { useDebounceFn, useWindowScroll } from '@vueuse/core'
+import { useDebounceFn } from '@vueuse/core'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
-
 import { useRouteHash } from '@vueuse/router'
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 const { toc } = useContent()
 
 const tocAnchor = ref<HTMLElement | null>()
 
 const search = useRouteHash()
 
-const { y: wy } = useWindowScroll()
-
-watch(wy, (val) => {
-  console.log(val)
-})
-
-onBeforeMount(() => {
-  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
-})
-
-onMounted(() => {
-  const article = document.querySelector('article')
-  if (article && toc.links) {
-    const els = []
-    toc.links.forEach((link: any) => {
-      const dom = document.getElementById(link.id)
-      if (dom) {
-        els.push(dom)
-      }
-      if (link.children && Array.isArray(link.children)) {
-        link.children.links.forEach((sublink: any) => {
-          const dom = document.getElementById(sublink.id)
-          if (dom) {
-            els.push(dom)
-          }
-        })
-      }
-    })
-  }
-})
+const activeToc = ref()
 
 const setActive = (link: HTMLElement) => {
-  links.value.forEach((el) => {
-    el.classList.remove('activeLink')
-    el.classList.remove('subactiveLink')
-  })
-  link.classList.add('activeLink')
-  link.dataset.linkType === 'second' && link.classList.add('subactiveLink')
+  const href = link.getAttribute('href') as string
+  activeToc.value = href
 }
 
 const bindSetActive = useDebounceFn((link: HTMLElement) => {
@@ -93,26 +71,30 @@ const isClickToc = ref(false)
 onMounted(() => {
   links.value = gsap.utils.toArray('.tocAnchor a')
   links.value.forEach((a) => {
-    const element = document.querySelector(a.getAttribute('href'))
+    const href = a.getAttribute('href')
+    const element = document.querySelector(href)
+    if (search.value === href) {
+      a.classList.add('activeLink')
+      if (a.dataset.linkType === 'second') {
+        a.classList.add('subactiveLink')
+      }
+      activeToc.value = href
+    }
     const linkST = ScrollTrigger.create({
       trigger: element,
       start: 'top 64px',
-      end: 'bottom 64px'
-    })
-    ScrollTrigger.create({
-      trigger: element,
-      start: 'top center',
-      end: 'bottom center',
+      end: 'bottom 64px',
       onToggle: (self) => {
         self.isActive && bindSetActive(a)
-      },
-      immediateRender: true
+      }
     })
     a.addEventListener('click', (e) => {
+      // 点击时的目录点亮效果
       e.preventDefault()
       isClickToc.value = true
       setActive(a)
       gsap.to(document.documentElement, {
+        duration: 0.3,
         scrollTo: linkST.start,
         overwrite: 'auto',
         onComplete() {

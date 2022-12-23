@@ -5,10 +5,10 @@
       class="article-layout container relative mx-auto -mt-16 min-h-screen px-5 pt-16"
     >
       <div class="relative mx-auto flex justify-between">
-        <ArticleLeftMenu
+        <!-- <ArticleLeftMenu
           v-show="!isImmerseRead"
           class="hidden lg:flex"
-        ></ArticleLeftMenu>
+        ></ArticleLeftMenu> -->
         <article :class="immerseReadClasses" class="article-main">
           <ContentDoc v-slot="{ doc }">
             <div
