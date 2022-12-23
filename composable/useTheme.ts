@@ -5,7 +5,6 @@ const OUT_TIME = 60 * 60 * 24 * 31
 export function useTheme() {
   const appConfig = useAppConfig()
   const colorMode = useColorMode()
-  console.log(colorMode)
   const theme = useCookie('theme', {
     default: () => colorMode.value || appConfig.theme,
     maxAge: OUT_TIME

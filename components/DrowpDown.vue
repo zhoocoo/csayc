@@ -1,8 +1,9 @@
 <template>
   <div class="dropdown-end dropdown">
-    <label tabindex="0" class="btn-ghost btn">
-      <slot></slot>
+    <label tabindex="0" class="btn btn-ghost" @click="setActive(data)">
+      <span>{{ data[labelKey] || $slots.default }}</span>
       <svg
+        v-if="props.data.children"
         class="fill-current"
         xmlns="http://www.w3.org/2000/svg"
         width="20"
@@ -13,16 +14,19 @@
       </svg>
     </label>
     <ul
+      v-if="props.data.children"
       tabindex="0"
       class="dropdown-content menu menu-compact w-40 bg-base-100 shadow-lg"
     >
       <li
-        v-for="item in props.list"
-        :key="item[props.valueKey || 'value']"
-        :class="{ bordered: active === item[props.valueKey || 'value'] }"
+        v-for="item in props.data.children"
+        :key="item[valueKey]"
+        :class="{
+          bordered: active === item[valueKey] || $route.path === item[valueKey]
+        }"
         @click="setActive(item)"
       >
-        <a>{{ item[props.labelKey || 'label'] }}</a>
+        <a>{{ item[labelKey] }}</a>
       </li>
     </ul>
   </div>
@@ -38,10 +42,23 @@ interface IListPropsItem {
 
 interface IProps {
   modelValue?: string | number | null
-  list: IListPropsItem[]
+  data: {
+    label: string
+    value: number | string
+    [key: string]: any
+    children?: IListPropsItem[]
+  }
   valueKey?: string
   labelKey?: string
 }
+
+const valueKey = computed(() => {
+  return props.valueKey || 'value'
+})
+
+const labelKey = computed(() => {
+  return props.labelKey || 'label'
+})
 
 const emits = defineEmits(['update:modelValue', 'change'])
 
@@ -62,6 +79,9 @@ const props = defineProps<IProps>()
 const active = useVModel(props, 'modelValue', emits)
 
 const setActive = (item: IListPropsItem) => {
+  if (item.children) {
+    return
+  }
   active.value = item[props.valueKey || 'value']
   emits('change', item)
 }

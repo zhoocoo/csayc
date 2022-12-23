@@ -1,5 +1,5 @@
 <template>
-  <DrowpDown v-model="theme" :list="themeConfig" @change="handlerChange"
+  <DrowpDown v-model="theme" :data="themeConfig" @change="handlerChange"
     >🎨 主题</DrowpDown
   >
 </template>
@@ -18,18 +18,26 @@ const handlerChange = (item: IThemeItem) => {
   setTheme(item.value)
 }
 
-const themeConfig = ref<IThemeItem[]>([
-  {
-    value: 'cupcake',
-    label: '白昼模式'
-  },
-  {
-    value: 'dark',
-    label: '暗夜模式'
-  },
-  {
-    value: 'system',
-    label: '跟随系统'
-  }
-])
+const themeConfig = ref<{
+  label: string
+  value: string | number
+  children?: IThemeItem[]
+}>({
+  label: '🎨 主题',
+  value: '',
+  children: [
+    {
+      value: 'cupcake',
+      label: '白昼模式'
+    },
+    {
+      value: 'dark',
+      label: '暗夜模式'
+    },
+    {
+      value: 'system',
+      label: '跟随系统'
+    }
+  ]
+})
 </script>

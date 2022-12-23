@@ -1,12 +1,43 @@
 <script lang="ts" setup>
+// import { gsap } from 'gsap'
+// import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { umRecord } from '~~/composable/useUm'
+import { useImmerseRead } from '~~/composable/useArticle'
+// gsap.registerPlugin(ScrollTrigger)
+// onMounted(() => {
+//   gsap.to(`#top-nav`, {
+//     scrollTrigger: {
+//       trigger: `#top-nav`,
+//       start: 'center center',
+//       end: 'center 100%',
+//       scrub: true,
+//       markers: true
+//     },
+//     y: -68
+//   })
+// })
+const isImmerseRead = useImmerseRead()
 
 const router = useRouter()
-const route = useRoute()
 
-const activeRoute = computed(() => route.path)
-
-const { navigation } = useContent()
+const {
+  navigation
+  // page,
+  // // Computed properties from `page` key
+  // excerpt,
+  // toc,
+  // type,
+  // layout
+} = useContent()
+// console.log(
+//   navigation,
+//   page,
+//   // Computed properties from `page` key
+//   excerpt,
+//   toc,
+//   type,
+//   layout
+// )
 // const appConfig = useAppConfig()
 const goHome = () => {
   umRecord({
@@ -23,7 +54,11 @@ const handlerChange = (item: any) => {
 </script>
 
 <template>
-  <div class="navbar fixed top-0 z-50 w-full bg-base-200">
+  <div
+    v-show="!isImmerseRead"
+    id="top-nav"
+    class="navbar fixed top-0 z-50 w-full bg-base-200"
+  >
     <div class="flex-1">
       <NuxtLink
         class="btn-ghost btn text-xl normal-case"
@@ -37,12 +72,13 @@ const handlerChange = (item: any) => {
     </div>
     <div class="flex-none">
       <DrowpDown
-        v-model="activeRoute"
-        :list="navigation[1].children"
+        v-for="item in navigation"
+        :key="item._path"
+        :data="item"
         value-key="_path"
         label-key="title"
         @change="handlerChange"
-        >文章列表</DrowpDown
+        >{{ item.title }}</DrowpDown
       >
       <ThemeChose></ThemeChose>
     </div>

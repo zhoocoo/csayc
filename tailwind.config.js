@@ -11,7 +11,11 @@ module.exports = {
     'content/**/*.md'
   ],
   // darkMode: 'class',
-  plugins: [require('@tailwindcss/typography'), require('daisyui')],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/typography'),
+    require('daisyui')
+  ],
   // theme: {
   //   extend: {
   //     colors: {

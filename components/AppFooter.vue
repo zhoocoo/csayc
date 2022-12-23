@@ -25,7 +25,7 @@
     </div>
     <div>
       <p>
-        <a href="http://www.beian.miit.gov.cn/" class="flex items-center">
+        <a class="flex items-center">
           <img
             class="w-24"
             src="@/assets/img/common/wechat-qrcode.jpg"
