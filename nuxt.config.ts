@@ -12,6 +12,9 @@ export default defineNuxtConfig({
     preference: 'dark', // default value of $colorMode.preference
     fallback: 'cupcake' // fallback value if not system preference found
   },
+  build: {
+    transpile: ['gsap']
+  },
   // https://content.nuxtjs.org
   content: {
     documentDriven: {

@@ -47,7 +47,9 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
 import { useRouteHash } from '@vueuse/router'
-gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
+if (process.client) {
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
+}
 const { toc } = useContent()
 
 const tocAnchor = ref<HTMLElement | null>()
