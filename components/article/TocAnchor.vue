@@ -6,12 +6,7 @@
         :key="link.text"
         class="my-3 first:mt-0 last:mb-0"
       >
-        <a
-          :href="`#${link.id}`"
-          :class="{ activeLink: scrollId === `#${link.id}` }"
-          class="block leading-6"
-          @click.prevent="handlerAnchorToc(link.id)"
-        >
+        <a :href="`#${link.id}`" data-link-type="first" class="block leading-6">
           {{ link.text }}
         </a>
         <ul v-if="link.children" class="pl-6">
@@ -23,11 +18,7 @@
             <a
               :href="`#${sublink.id}`"
               class="block leading-6"
-              :class="{
-                activeLink: scrollId === `#${sublink.id}`,
-                subactiveLink: scrollId === `#${sublink.id}`
-              }"
-              @click.prevent="handlerAnchorToc(sublink.id)"
+              data-link-type="second"
             >
               {{ sublink.text }}
             </a>
@@ -40,32 +31,39 @@
 
 <script setup lang="ts">
 // import { useIntersectionObserver } from '@vueuse/core'
+import { useDebounceFn, useWindowScroll } from '@vueuse/core'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+
 import { useRouteHash } from '@vueuse/router'
-gsap.registerPlugin(ScrollTrigger)
 const { toc } = useContent()
 
 const tocAnchor = ref<HTMLElement | null>()
 
 const search = useRouteHash()
-const scrollId = ref(search.value)
 
-// const active = computed(() => {
-//   return search.value || scrollId.value
-// })
+const { y: wy } = useWindowScroll()
+
+watch(wy, (val) => {
+  console.log(val)
+})
+
+onBeforeMount(() => {
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
+})
 
 onMounted(() => {
   const article = document.querySelector('article')
   if (article && toc.links) {
     const els = []
-    toc.links.forEach((link: any[]) => {
+    toc.links.forEach((link: any) => {
       const dom = document.getElementById(link.id)
       if (dom) {
         els.push(dom)
       }
       if (link.children && Array.isArray(link.children)) {
-        link.children.links.forEach((sublink: any[]) => {
+        link.children.links.forEach((sublink: any) => {
           const dom = document.getElementById(sublink.id)
           if (dom) {
             els.push(dom)
@@ -76,49 +74,56 @@ onMounted(() => {
   }
 })
 
+const setActive = (link: HTMLElement) => {
+  links.value.forEach((el) => {
+    el.classList.remove('activeLink')
+    el.classList.remove('subactiveLink')
+  })
+  link.classList.add('activeLink')
+  link.dataset.linkType === 'second' && link.classList.add('subactiveLink')
+}
+
+const bindSetActive = useDebounceFn((link: HTMLElement) => {
+  if (isClickToc.value) return
+  setActive(link)
+}, 50)
+
+const links = ref()
+const isClickToc = ref(false)
 onMounted(() => {
-  const q = gsap.utils.selector('#article-content')
-  const titles = q('h2,h3')
-  titles.forEach((dom) => {
-    gsap.to(dom, {
-      scrollTrigger: {
-        trigger: dom,
-        start: 'center 68px',
-        end: 'center 100%',
-        scrub: true,
-        markers: true,
-        onEnter(self) {
-          console.log('onEnter', self.trigger?.id)
-          scrollId.value = `#${self.trigger?.id}`
-        },
-        onEnterBack(self) {
-          scrollId.value = `#${self.trigger?.id}`
-          console.log('onEnterBack', self.trigger?.id)
-        }
+  links.value = gsap.utils.toArray('.tocAnchor a')
+  links.value.forEach((a) => {
+    const element = document.querySelector(a.getAttribute('href'))
+    const linkST = ScrollTrigger.create({
+      trigger: element,
+      start: 'top 64px',
+      end: 'bottom 64px'
+    })
+    ScrollTrigger.create({
+      trigger: element,
+      start: 'top center',
+      end: 'bottom center',
+      onToggle: (self) => {
+        self.isActive && bindSetActive(a)
       },
-      x: 10
+      immediateRender: true
+    })
+    a.addEventListener('click', (e) => {
+      e.preventDefault()
+      isClickToc.value = true
+      setActive(a)
+      gsap.to(document.documentElement, {
+        scrollTo: linkST.start,
+        overwrite: 'auto',
+        onComplete() {
+          setTimeout(() => {
+            isClickToc.value = false
+          }, 50)
+        }
+      })
     })
   })
 })
-
-// const { stop } = useIntersectionObserver(
-//   target,
-//   ([{ isIntersecting }], observerElement) => {
-//     targetIsVisible.value = isIntersecting
-//   }
-// )
-
-const handlerAnchorToc = (id: string) => {
-  const root = document.documentElement
-  const el = document.getElementById(id)
-  if (el) {
-    // search.value = `#${id}`
-    root.scrollTo({
-      top: el?.offsetTop,
-      behavior: 'smooth'
-    })
-  }
-}
 
 watch(
   search,
@@ -126,7 +131,7 @@ watch(
     const id = val.slice(1)
     if (process.client) {
       nextTick(() => {
-        handlerAnchorToc(id)
+        console.log(id)
       })
     }
   },
