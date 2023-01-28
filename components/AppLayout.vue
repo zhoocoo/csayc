@@ -1,9 +1,8 @@
 <template>
-  <div class="min-h-screen">
+  <div>
     <AppLoadingBar />
     <AppNavbar />
     <div
-      class="min-h-screen pt-16"
       :class="{
         '!pt-0': isImmerseRead
       }"

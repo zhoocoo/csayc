@@ -1,44 +1,11 @@
 <script lang="ts" setup>
-// import { gsap } from 'gsap'
-// import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { umRecord } from '~~/composable/useUm'
 import { useImmerseRead } from '~~/composable/useArticle'
-// gsap.registerPlugin(ScrollTrigger)
-// onMounted(() => {
-//   gsap.to(`#top-nav`, {
-//     scrollTrigger: {
-//       trigger: `#top-nav`,
-//       start: 'center center',
-//       end: 'center 100%',
-//       scrub: true,
-//       markers: true
-//     },
-//     y: -68
-//   })
-// })
 const isImmerseRead = useImmerseRead()
 
 const router = useRouter()
 
-const {
-  navigation
-  // page,
-  // // Computed properties from `page` key
-  // excerpt,
-  // toc,
-  // type,
-  // layout
-} = useContent()
-// console.log(
-//   navigation,
-//   page,
-//   // Computed properties from `page` key
-//   excerpt,
-//   toc,
-//   type,
-//   layout
-// )
-// const appConfig = useAppConfig()
+const { navigation } = useContent()
 const goHome = () => {
   umRecord({
     eventName: 'home_logo_click',
@@ -57,7 +24,7 @@ const handlerChange = (item: any) => {
   <div
     v-show="!isImmerseRead"
     id="top-nav"
-    class="navbar fixed top-0 z-50 w-full bg-base-200"
+    class="navbar sticky top-0 z-50 w-full bg-base-200"
   >
     <div class="flex-1">
       <NuxtLink

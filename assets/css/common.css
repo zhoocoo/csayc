@@ -1,3 +1,8 @@
-.document-driven-page {
+/* .document-driven-page {
   @apply min-h-screen;
+} */
+
+:target {
+  padding-top: 5rem;
+  margin-top: -4rem !important;
 }
