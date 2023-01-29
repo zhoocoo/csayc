@@ -19,10 +19,10 @@
                 class="not-prose mb-0 w-full flex-1 line-clamp-2"
                 >{{ doc.title }}</ProseH1
               >
-              <ArticleFocusPanel
+              <!-- <ArticleFocusPanel
                 v-if="isImmerseRead"
                 class="sticky top-4 ml-3 shrink-0"
-              ></ArticleFocusPanel>
+              ></ArticleFocusPanel> -->
             </div>
             <div>
               <ArticleDescPanel v-if="doc.description" class="my-3">{{

@@ -8,6 +8,7 @@
 
 <script setup>
 import { useElementBounding } from '@vueuse/core'
+
 const rootRef = ref()
 const wrapper = ref()
 const { width, height, left, top } = useElementBounding(rootRef)

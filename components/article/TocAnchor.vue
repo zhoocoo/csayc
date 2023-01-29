@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { useRouteHash } from '@vueuse/router'
+import { useDebounceFn } from '@vueuse/core'
 interface IArticleAnchors {
   dom: HTMLElement
   offsetTop: number
@@ -71,7 +71,6 @@ function searchAnchor(
 }
 const { toc } = useContent()
 
-const search = useRouteHash()
 interface ILink {
   id: string
   depth: number
@@ -89,12 +88,18 @@ if (process.client) {
     if (anc) {
       activeToc.value = `#${anc.id}`
     }
+    // 避免页面操作导致锚点的位置变更
+    debounceUpdate()
   })
 }
 
-onMounted(() => {
-  const article = document.querySelector('article.article-main')
-  if (article && toc.value.links) {
+const articleDom = process.client
+  ? document.querySelector('article.article-main')
+  : null
+
+const updateAncData = () => {
+  console.log('update')
+  if (articleDom && toc.value.links) {
     toc.value.links.forEach((link: ILink) => {
       const dom = document.getElementById(link.id)
       if (dom) {
@@ -115,21 +120,13 @@ onMounted(() => {
     })
   }
   articleAnchors.sort((a, b) => a.offsetTop - b.offsetTop)
-})
+}
 
-watch(
-  search,
-  (val) => {
-    if (process.client) {
-      nextTick(() => {
-        activeToc.value = val
-      })
-    }
-  },
-  {
-    immediate: true
-  }
-)
+const debounceUpdate = useDebounceFn(updateAncData, 200)
+
+onMounted(() => {
+  updateAncData()
+})
 </script>
 
 <style lang="postcss">

@@ -2,7 +2,8 @@
   @apply min-h-screen;
 } */
 
-:target {
-  padding-top: 5rem;
-  margin-top: -4rem !important;
+html,
+body {
+  scroll-behavior: smooth;
 }
+

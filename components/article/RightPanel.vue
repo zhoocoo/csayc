@@ -1,5 +1,5 @@
 <template>
-  <ComAffix offset-top="4rem">
+  <ComAffixPanel offset-top="4rem">
     <div
       ref="rightPanel"
       class="not-prose flex h-screen w-80 flex-col items-center px-3 pt-4"
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-  </ComAffix>
+  </ComAffixPanel>
 </template>
 
 <script setup lang="ts"></script>
