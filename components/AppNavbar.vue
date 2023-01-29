@@ -3,9 +3,9 @@ import { umRecord } from '~~/composable/useUm'
 import { useImmerseRead } from '~~/composable/useArticle'
 const isImmerseRead = useImmerseRead()
 
-const router = useRouter()
+// const router = useRouter()
 
-const { navigation } = useContent()
+// const { navigation } = useContent()
 const goHome = () => {
   umRecord({
     eventName: 'home_logo_click',
@@ -15,9 +15,9 @@ const goHome = () => {
   })
 }
 
-const handlerChange = (item: any) => {
-  router.push(item._path)
-}
+// const handlerChange = (item: any) => {
+//   router.push(item._path)
+// }
 </script>
 
 <template>
@@ -38,7 +38,9 @@ const handlerChange = (item: any) => {
       </NuxtLink>
     </div>
     <div class="flex-none">
-      <DrowpDown
+      <NuxtLink class="btn-ghost btn" to="/catogary"> 文章列表 </NuxtLink>
+
+      <!-- <DrowpDown
         v-for="item in navigation"
         :key="item._path"
         :data="item"
@@ -46,7 +48,7 @@ const handlerChange = (item: any) => {
         label-key="title"
         @change="handlerChange"
         >{{ item.title }}</DrowpDown
-      >
+      > -->
       <ThemeChose></ThemeChose>
     </div>
   </div>

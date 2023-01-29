@@ -98,7 +98,6 @@ const articleDom = process.client
   : null
 
 const updateAncData = () => {
-  console.log('update')
   if (articleDom && toc.value.links) {
     toc.value.links.forEach((link: ILink) => {
       const dom = document.getElementById(link.id)
