@@ -42,35 +42,79 @@
 
 <script setup lang="ts">
 import { useRouteHash } from '@vueuse/router'
+interface IArticleAnchors {
+  dom: HTMLElement
+  offsetTop: number
+  id: string
+  section?: number[]
+}
+/**
+ * 二分法查找值
+ */
+function searchAnchor(
+  anchors: IArticleAnchors[],
+  target: number
+): IArticleAnchors {
+  let left = 0
+  let right: number = anchors.length - 1
+  while (left <= right) {
+    const mid: number = Math.floor((left + right) / 2)
+    if (anchors[mid].offsetTop < target) {
+      left = mid + 1
+    } else if (anchors[mid].offsetTop > target) {
+      right = mid - 1
+    } else {
+      return anchors[mid - 1]
+    }
+  }
+  return anchors[right]
+}
 const { toc } = useContent()
 
 const search = useRouteHash()
+interface ILink {
+  id: string
+  depth: number
+  text: string
+  children?: ILink[]
+}
 
+const articleAnchors: IArticleAnchors[] = []
+const scrollTop = ref(0)
 const activeToc = ref()
 if (process.client) {
-  window.addEventListener('scroll', (e) => {
-    console.log(document.documentElement.scrollTop)
+  window.addEventListener('scroll', () => {
+    scrollTop.value = document.documentElement.scrollTop
+    const anc = searchAnchor(articleAnchors, scrollTop.value)
+    if (anc) {
+      activeToc.value = `#${anc.id}`
+    }
   })
 }
-const els = []
+
 onMounted(() => {
   const article = document.querySelector('article.article-main')
-  if (article && toc.links) {
-    toc.links.forEach((link: any) => {
+  if (article && toc.value.links) {
+    toc.value.links.forEach((link: ILink) => {
       const dom = document.getElementById(link.id)
       if (dom) {
-        els.push(dom)
+        articleAnchors.push({ dom, offsetTop: dom.offsetTop, id: link.id })
       }
       if (link.children && Array.isArray(link.children)) {
-        link.children.links.forEach((sublink: any) => {
+        link.children.forEach((sublink: any) => {
           const dom = document.getElementById(sublink.id)
           if (dom) {
-            els.push(dom)
+            articleAnchors.push({
+              dom,
+              offsetTop: dom.offsetTop,
+              id: sublink.id
+            })
           }
         })
       }
     })
   }
+  articleAnchors.sort((a, b) => a.offsetTop - b.offsetTop)
 })
 
 watch(
