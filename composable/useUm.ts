@@ -7,6 +7,7 @@ interface ISetRcord {
  * 友盟收集数据埋点
  */
 export function umRecord(data: ISetRcord): void {
+  console.log(window, process.env.NODE_ENV)
   if (process.server || process.env.NODE_ENV === 'development') return
   const { eventName, eventParams } = data
 
