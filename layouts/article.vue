@@ -42,6 +42,7 @@
             <ProseImg
               v-if="!isImmerseRead"
               id="article-main-img"
+              class="mx-auto"
               :src="doc.image?.src"
               :alt="doc.image?.alt"
             />

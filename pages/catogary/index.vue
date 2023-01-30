@@ -70,7 +70,10 @@ const isMinScreen = computed(() => {
 
 const getImgStyles = (item) => {
   return {
-    height: (item.poster.height / item.poster.width) * cardWidth.value + 'px'
+    height:
+      item.poster && item.poster.height
+        ? (item.poster.height / item.poster.width) * cardWidth.value + 'px'
+        : 'auto'
   }
 }
 
