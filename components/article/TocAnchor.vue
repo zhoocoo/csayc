@@ -81,21 +81,8 @@ interface ILink {
 const articleAnchors: IArticleAnchors[] = []
 const scrollTop = ref(0)
 const activeToc = ref()
-if (window) {
-  window.addEventListener('scroll', () => {
-    scrollTop.value = document.documentElement.scrollTop
-    const anc = searchAnchor(articleAnchors, scrollTop.value)
-    if (anc) {
-      activeToc.value = `#${anc.id}`
-    }
-    // 避免页面操作导致锚点的位置变更
-    debounceUpdate()
-  })
-}
 
-const articleDom = window
-  ? document.querySelector('article.article-main')
-  : null
+let articleDom: HTMLElement | null = null
 
 const updateAncData = () => {
   if (articleDom && toc.value.links) {
@@ -124,6 +111,16 @@ const updateAncData = () => {
 const debounceUpdate = useDebounceFn(updateAncData, 200)
 
 onMounted(() => {
+  window.addEventListener('scroll', () => {
+    scrollTop.value = document.documentElement.scrollTop
+    const anc = searchAnchor(articleAnchors, scrollTop.value)
+    if (anc) {
+      activeToc.value = `#${anc.id}`
+    }
+    // 避免页面操作导致锚点的位置变更
+    debounceUpdate()
+  })
+  articleDom = document.querySelector('article.article-main')
   updateAncData()
 })
 </script>
