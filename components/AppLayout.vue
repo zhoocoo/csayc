@@ -1,19 +1,10 @@
 <template>
-  <div>
-    <AppLoadingBar />
+  <AppLoadingBar />
+  <div class="min-h-screen">
     <AppNavbar />
-    <div
-      :class="{
-        '!pt-0': isImmerseRead
-      }"
-    >
-      <slot />
-    </div>
-    <AppFooter />
+    <slot />
   </div>
+  <AppFooter />
 </template>
 
-<script setup lang="ts">
-import { useImmerseRead } from '~~/composable/useArticle'
-const isImmerseRead = useImmerseRead()
-</script>
+<script setup lang="ts"></script>
