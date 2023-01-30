@@ -78,7 +78,7 @@ const getImgStyles = (item) => {
 }
 
 const initMgicGrid = () => {
-  if (magicGrid.value || isMinScreen.value || process.server) return
+  if (magicGrid.value || isMinScreen.value || !window) return
   navigation.value[0].children = navigation.value[0].children.map((i) => {
     i.randomStyle = getImgStyles(i)
     return i
@@ -96,7 +96,7 @@ const initMgicGrid = () => {
 }
 
 const updateMgicGrid = () => {
-  if (magicGrid.value && process.client) {
+  if (magicGrid.value && window) {
     nextTick(() => {
       magicGrid.value.positionItems()
     })

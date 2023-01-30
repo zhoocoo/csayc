@@ -81,7 +81,7 @@ interface ILink {
 const articleAnchors: IArticleAnchors[] = []
 const scrollTop = ref(0)
 const activeToc = ref()
-if (process.client) {
+if (window) {
   window.addEventListener('scroll', () => {
     scrollTop.value = document.documentElement.scrollTop
     const anc = searchAnchor(articleAnchors, scrollTop.value)
@@ -93,7 +93,7 @@ if (process.client) {
   })
 }
 
-const articleDom = process.client
+const articleDom = window
   ? document.querySelector('article.article-main')
   : null
 

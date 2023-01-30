@@ -5,7 +5,7 @@ import { setPoint } from './useUm';
  * @returns {Object}
  */
 export const param2Obj = (url?: string): Record<string, string> => {
-  if (!url && process && process.client) {
+  if (!url && process.client) {
     url = window.location.href
   } else if (!url) {
     return {}
@@ -27,10 +27,9 @@ export const param2Obj = (url?: string): Record<string, string> => {
 }
 
 export const isMobileOrPc = (): 'Mobile' | 'PC' => {
-  const u =
-    process && process.client
-      ? navigator.userAgent
-      : useRequestHeaders()['user-agent']
+  const u = process.client
+    ? navigator.userAgent
+    : useRequestHeaders()['user-agent']
   if (
     /ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test(
       u.toLowerCase()

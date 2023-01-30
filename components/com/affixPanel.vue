@@ -39,7 +39,7 @@ const getThreshold = () => {
   const offsetTop = parseFloat(props.offsetTop)
   if (props.offsetTop.endsWith('px')) {
     threshold = parseFloat(offsetTop)
-  } else if (process.client && props.offsetTop.endsWith('rem')) {
+  } else if (window && props.offsetTop.endsWith('rem')) {
     const rootFontSize = window.getComputedStyle(
       document.documentElement
     ).fontSize
