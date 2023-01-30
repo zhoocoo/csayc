@@ -2,7 +2,7 @@
   <main id="article-wrapper">
     <div
       id="article-content"
-      class="article-layout container relative mx-auto -mt-16 min-h-screen px-5 pt-16"
+      class="article-layout container relative mx-auto px-5"
     >
       <div class="relative mx-auto flex justify-between">
         <!-- <ArticleLeftMenu
@@ -19,10 +19,10 @@
                 class="not-prose mb-0 w-full flex-1 line-clamp-2"
                 >{{ doc.title }}</ProseH1
               >
-              <ArticleFocusPanel
+              <!-- <ArticleFocusPanel
                 v-if="isImmerseRead"
                 class="sticky top-4 ml-3 shrink-0"
-              ></ArticleFocusPanel>
+              ></ArticleFocusPanel> -->
             </div>
             <div>
               <ArticleDescPanel v-if="doc.description" class="my-3">{{
@@ -42,6 +42,7 @@
             <ProseImg
               v-if="!isImmerseRead"
               id="article-main-img"
+              class="mx-auto"
               :src="doc.image?.src"
               :alt="doc.image?.alt"
             />
@@ -96,7 +97,7 @@ const immerseReadClasses = computed(() => {
 .article-layout {
   article.article-main {
     @apply prose prose-code:p-0 prose-pre:m-0 prose-pre:py-0 prose-pre:pb-5 prose-pre:before:hidden dark:prose-invert;
-    @apply my-4 min-h-screen w-1 max-w-none flex-1 border-0 px-5 py-10 shadow-none md:border md:border-base-200 md:shadow;
+    @apply my-4 w-1 max-w-none flex-1 border-0 px-5 py-10 shadow-none md:border md:border-base-200 md:shadow;
   }
 }
 </style>

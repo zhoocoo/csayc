@@ -1,6 +1,6 @@
 <template>
   <div ref="rootRef" :style="rootStyle">
-    <div ref="wrapper" :style="affixStyle">
+    <div ref="wrapper" class="h-screen overflow-y-auto" :style="affixStyle">
       <slot></slot>
     </div>
   </div>
@@ -8,12 +8,17 @@
 
 <script setup>
 import { useElementBounding } from '@vueuse/core'
+
 const rootRef = ref()
 const wrapper = ref()
 const { width, height, left, top } = useElementBounding(rootRef)
 
 const props = defineProps({
   offsetTop: {
+    type: String,
+    default: '0'
+  },
+  offsetBottom: {
     type: String,
     default: '0'
   }
@@ -27,8 +32,9 @@ const rootStyle = computed(() => {
   }
 })
 
-/** 阙值计算 */
-const threshold = computed(() => {
+const threshold = ref(0)
+
+const getThreshold = () => {
   let threshold = 0
   const offsetTop = parseFloat(props.offsetTop)
   if (props.offsetTop.endsWith('px')) {
@@ -42,7 +48,14 @@ const threshold = computed(() => {
     threshold = offsetTop
   }
   return threshold
+}
+
+onBeforeMount(() => {
+  threshold.value = getThreshold()
 })
+
+/** 阙值计算 */
+// const threshold = computed(getThreshold)
 
 const affixStyle = computed(() => {
   if (top.value < threshold.value) {

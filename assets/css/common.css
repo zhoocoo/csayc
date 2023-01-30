@@ -1,3 +1,9 @@
-.document-driven-page {
+/* .document-driven-page {
   @apply min-h-screen;
+} */
+
+html,
+body {
+  scroll-behavior: smooth;
 }
+
