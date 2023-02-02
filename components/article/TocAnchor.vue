@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDebounceFn } from '@vueuse/core'
+import { useDebounceFn, useWindowSize } from '@vueuse/core'
 interface IArticleAnchors {
   dom: HTMLElement
   offsetTop: number
@@ -70,6 +70,7 @@ function searchAnchor(
   return anchors[right]
 }
 const { toc } = useContent()
+const { height } = useWindowSize()
 
 interface ILink {
   id: string
@@ -84,12 +85,13 @@ const activeToc = ref()
 
 let articleDom: HTMLElement | null = null
 
-const updateAncData = () => {
+const initDateAncData = () => {
   if (articleDom && toc.value.links) {
     toc.value.links.forEach((link: ILink) => {
       const dom = document.getElementById(link.id)
       if (dom) {
         articleAnchors.push({ dom, offsetTop: dom.offsetTop, id: link.id })
+        dom.innerHTML = dom.innerHTML + dom.offsetTop
       }
       if (link.children && Array.isArray(link.children)) {
         link.children.forEach((sublink: any) => {
@@ -100,12 +102,20 @@ const updateAncData = () => {
               offsetTop: dom.offsetTop,
               id: sublink.id
             })
+            dom.innerHTML = dom.innerHTML + dom.offsetTop
           }
         })
       }
     })
   }
   articleAnchors.sort((a, b) => a.offsetTop - b.offsetTop)
+}
+
+const updateAncData = () => {
+  articleAnchors.map((i) => {
+    i.offsetTop = i.dom.offsetTop
+    return i
+  })
 }
 
 const debounceUpdate = useDebounceFn(updateAncData, 200)
@@ -116,12 +126,17 @@ onMounted(() => {
     const anc = searchAnchor(articleAnchors, scrollTop.value)
     if (anc) {
       activeToc.value = `#${anc.id}`
+    } else {
+      activeToc.value = undefined
     }
     // 避免页面操作导致锚点的位置变更
-    debounceUpdate()
   })
   articleDom = document.querySelector('article.article-main')
-  updateAncData()
+  initDateAncData()
+})
+
+watch(height, () => {
+  debounceUpdate()
 })
 </script>
 
