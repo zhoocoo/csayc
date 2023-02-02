@@ -88,12 +88,6 @@ const immerseReadClasses = computed(() => {
   }
   return {}
 })
-
-onMounted(() => {
-  setTimeout(() => {
-    document.getElementById('text').style.height = '400px'
-  }, 3000)
-})
 </script>
 
 <style lang="postcss">

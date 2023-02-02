@@ -5,7 +5,8 @@
       class="btn-warning btn-sm btn my-2"
       @click="toggle()"
     >
-      {{ value ? '关闭' : '试一试' }}
+      <div v-show="value">关闭</div>
+      <div v-show="!value" class="flex justify-center items-center"><Icon name="ri-code-box-line" class="mr-2"></Icon> 试一试</div>
     </button>
     <iframe
       v-if="value"
