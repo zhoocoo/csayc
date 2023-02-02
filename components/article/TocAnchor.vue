@@ -41,13 +41,16 @@
 </template>
 
 <script setup lang="ts">
-import { useDebounceFn, useWindowSize } from '@vueuse/core'
+import { useDebounceFn, useResizeObserver } from '@vueuse/core'
+import { useRouteHash } from '@vueuse/router'
 interface IArticleAnchors {
   dom: HTMLElement
   offsetTop: number
   id: string
   section?: number[]
 }
+
+const search = useRouteHash()
 /**
  * 二分法查找值
  */
@@ -64,13 +67,12 @@ function searchAnchor(
     } else if (anchors[mid].offsetTop > target) {
       right = mid - 1
     } else {
-      return anchors[mid - 1]
+      return anchors[mid]
     }
   }
   return anchors[right]
 }
 const { toc } = useContent()
-const { height } = useWindowSize()
 
 interface ILink {
   id: string
@@ -87,25 +89,13 @@ let articleDom: HTMLElement | null = null
 
 const initDateAncData = () => {
   if (articleDom && toc.value.links) {
-    toc.value.links.forEach((link: ILink) => {
-      const dom = document.getElementById(link.id)
-      if (dom) {
-        articleAnchors.push({ dom, offsetTop: dom.offsetTop, id: link.id })
-        dom.innerHTML = dom.innerHTML + dom.offsetTop
-      }
-      if (link.children && Array.isArray(link.children)) {
-        link.children.forEach((sublink: any) => {
-          const dom = document.getElementById(sublink.id)
-          if (dom) {
-            articleAnchors.push({
-              dom,
-              offsetTop: dom.offsetTop,
-              id: sublink.id
-            })
-            dom.innerHTML = dom.innerHTML + dom.offsetTop
-          }
-        })
-      }
+    const fragments = articleDom.querySelectorAll('[data-fragment-id]')
+    fragments.forEach((dom) => {
+      articleAnchors.push({
+        dom: dom as HTMLElement,
+        offsetTop: getElementTop(dom as HTMLElement) - 1,
+        id: (dom as HTMLElement).dataset.fragmentId as string
+      })
     })
   }
   articleAnchors.sort((a, b) => a.offsetTop - b.offsetTop)
@@ -113,31 +103,80 @@ const initDateAncData = () => {
 
 const updateAncData = () => {
   articleAnchors.map((i) => {
-    i.offsetTop = i.dom.offsetTop
+    i.offsetTop = getElementTop(i.dom) - 1
     return i
   })
 }
 
-const debounceUpdate = useDebounceFn(updateAncData, 200)
+const wrapperHeight = ref(0)
+let stopResizeOb = () => {}
+
+// 获取Element的offsetTop，忽略offsetParent的影响
+function getElementTop(element: HTMLElement) {
+  let actualTop = element.offsetTop
+  let current = element.offsetParent as HTMLElement
+  while (current !== null) {
+    actualTop += current.offsetTop
+    current = current.offsetParent as HTMLElement
+  }
+
+  return actualTop
+}
+
+const scrollBehavior = () => {
+  scrollTop.value = document.documentElement.scrollTop
+  const anc = searchAnchor(articleAnchors, scrollTop.value)
+  if (anc) {
+    activeToc.value = `#${anc.id}`
+  } else {
+    activeToc.value = undefined
+  }
+}
 
 onMounted(() => {
-  window.addEventListener('scroll', () => {
-    scrollTop.value = document.documentElement.scrollTop
-    const anc = searchAnchor(articleAnchors, scrollTop.value)
-    if (anc) {
-      activeToc.value = `#${anc.id}`
-    } else {
-      activeToc.value = undefined
-    }
-    // 避免页面操作导致锚点的位置变更
-  })
   articleDom = document.querySelector('article.article-main')
+  window.addEventListener('scroll', scrollBehavior)
+  // 受限于服务端渲染，document无法在服务端获取，而nuxt3当前版本并没有一个稳定的方法判断是否是客户端(使用window判断，在服务端会直接报错)
+  const { stop } = useResizeObserver(document.documentElement, (entries) => {
+    const entry = entries[0]
+    const { height } = entry.contentRect
+    wrapperHeight.value = height
+  })
+
+  stopResizeOb = stop
   initDateAncData()
+  goAnchorTarget(search.value)
 })
 
-watch(height, () => {
-  debounceUpdate()
+onBeforeUnmount(() => {
+  // 退出时停止监听
+  stopResizeOb()
+  window.removeEventListener('scroll', scrollBehavior)
 })
+
+// 文档流高度一旦繁盛改变，则更新文档中锚点的位置
+watch(wrapperHeight, () => {
+  updateAncData()
+})
+
+// 右侧锚点点击问题
+watch(
+  () => search.value,
+  (val) => {
+    goAnchorTarget(val)
+  }
+)
+
+const goAnchorTarget = (val: string) => {
+  if (val) {
+    const target = articleAnchors.find((i) => `#${i.id}` === val)
+    if (target) {
+      target.dom.scrollIntoView({
+        behavior: 'smooth'
+      })
+    }
+  }
+}
 </script>
 
 <style lang="postcss">

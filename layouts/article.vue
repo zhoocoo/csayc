@@ -69,7 +69,6 @@
 import { useImmerseRead } from '~~/composable/useArticle'
 import { umSendPV } from '~~/composable/useUm'
 
-
 // 定义样式  https://tailwindcss.com/docs/typography-plugin#element-modifiers
 defineComponent({
   name: 'ArtiCleLayout'
@@ -90,7 +89,11 @@ const immerseReadClasses = computed(() => {
   return {}
 })
 
-
+onMounted(() => {
+  setTimeout(() => {
+    document.getElementById('text').style.height = '400px'
+  }, 3000)
+})
 </script>
 
 <style lang="postcss">
