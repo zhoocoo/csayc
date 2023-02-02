@@ -1,30 +1,14 @@
 <template>
   <div class="mb-4 flex items-center justify-center py-4">
     <div class="btn-group grid grid-cols-2">
-      <button
-        :class="{
-          'btn-disabled': !prev
-        }"
-        class="btn-outline btn"
-      >
-        <template v-if="prev">
-          <NuxtLink :to="prev._path">
-            {{ prev.title }}
-          </NuxtLink>
-        </template>
-        <a v-else>没有了哦</a>
-      </button>
-      <button
-        :class="{
-          'btn-disabled': !next
-        }"
-        class="btn-outline btn"
-      >
-        <template v-if="next">
-          <NuxtLink :to="next._path">{{ next.title }}</NuxtLink>
-        </template>
-        <a v-else>没有了哦</a>
-      </button>
+      <NuxtLink v-if="prev" class="btn-outline btn" :to="prev._path">
+        {{ prev.title }}
+      </NuxtLink>
+      <span v-else class="btn-outline btn-disabled btn">没有了哦</span>
+      <NuxtLink v-if="next" :to="next._path" class="btn-outline btn">
+        {{ next.title }}
+      </NuxtLink>
+      <span v-else class="btn-outline btn-disabled btn">没有了哦</span>
     </div>
   </div>
 </template>

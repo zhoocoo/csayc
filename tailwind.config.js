@@ -10,7 +10,7 @@ module.exports = {
     './app.vue',
     'content/**/*.md'
   ],
-  // darkMode: 'class',
+  darkMode: 'class',
   plugins: [
     require('@tailwindcss/line-clamp'),
     require('@tailwindcss/typography'),

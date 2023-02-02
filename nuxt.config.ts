@@ -8,9 +8,7 @@ export default defineNuxtConfig({
   ],
   // https://color-mode.nuxtjs.org
   colorMode: {
-    classSuffix: '',
-    preference: 'dark', // default value of $colorMode.preference
-    fallback: 'cupcake' // fallback value if not system preference found
+    classSuffix: ''
   },
   build: {
     transpile: ['gsap']
