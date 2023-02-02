@@ -14,19 +14,22 @@
           :style="{
             width: cardWidth + 'px'
           }"
-          class="custom-card"
+          class="custom-card back-mask"
         >
-          <div class="card-body bg-base-300 p-3 md:p-5 rounded-t-xl">
+          <div class="card-body rounded-t-xl bg-base-300 p-3 md:p-5">
             <h2 class="card-title">{{ item.title }}</h2>
             <p class="line-clamp-2">{{ item.description }}</p>
           </div>
-          <figure v-if="item.poster">
-            <img
-              class="w-full object-cover"
-              :style="item.randomStyle"
-              :src="item.poster.src"
-            />
-          </figure>
+          <div class="relative overflow-hidden rounded-b-xl">
+            <figure v-if="item.poster">
+              <img
+                class="w-full object-cover"
+                :style="item.randomStyle"
+                :src="item.poster.src"
+              />
+            </figure>
+            <div class="mask"></div>
+          </div>
         </nuxt-link>
       </div>
 
@@ -154,7 +157,12 @@ watch(
     flex-wrap: wrap;
     .custom-card {
       @apply card relative block cursor-pointer rounded-xl bg-base-200 shadow-xl;
-      @apply before:absolute before:top-3 before:left-3 before:-z-10 before:h-full before:w-full before:rounded-xl before:bg-base-200 before:content-[''] hover:before:top-0 hover:before:left-0 hover:before:duration-300 hover:before:transition-all before:shadow-inner;
+      &.back-mask {
+        @apply before:absolute before:top-3 before:left-3 before:-z-10 before:h-full before:w-full before:rounded-xl before:bg-base-200 before:shadow-inner before:content-[''] hover:before:top-0 hover:before:left-0 hover:before:transition-all hover:before:duration-300;
+      }
+      /* .mask{
+          @apply absolute top-0 bg-base-300 opacity-90 w-full h-full;
+        } */
     }
   }
 }
