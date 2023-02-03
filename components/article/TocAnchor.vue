@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { useDebounceFn, useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { useRouteHash } from '@vueuse/router'
 interface IArticleAnchors {
   dom: HTMLElement

@@ -1,5 +1,23 @@
 <template>
   <main id="article-wrapper">
+    <div class="container mx-auto mt-4">
+      <div class="breadcrumbs text-sm">
+        <ul>
+          <li>
+            <NuxtLink to="/catogary">
+              <Icon class="mr-2" name="ri-pages-line"></Icon>
+              文章列表
+            </NuxtLink>
+          </li>
+          <li>
+            <a>
+              <Icon class="mr-2" name="ri-article-line"></Icon>
+              {{ page.title }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
     <div
       id="article-content"
       class="article-layout container relative mx-auto px-5"
@@ -68,7 +86,6 @@
 
 import { useImmerseRead } from '~~/composable/useArticle'
 import { umSendPV } from '~~/composable/useUm'
-
 // 定义样式  https://tailwindcss.com/docs/typography-plugin#element-modifiers
 defineComponent({
   name: 'ArtiCleLayout'
@@ -76,7 +93,10 @@ defineComponent({
 </script>
 
 <script setup lang="ts">
+const { navigation, surround, page } = useContent()
+console.log(navigation, surround, page)
 umSendPV()
+
 const isImmerseRead = useImmerseRead()
 const immerseReadClasses = computed(() => {
   // 沉浸式阅读模式下
