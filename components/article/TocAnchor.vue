@@ -124,7 +124,8 @@ function getElementTop(element: HTMLElement) {
 }
 
 const scrollBehavior = () => {
-  scrollTop.value = document.documentElement.scrollTop
+   // 获取滚动条高度兼容性写法
+  scrollTop.value = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop
   const anc = searchAnchor(articleAnchors, scrollTop.value)
   if (anc) {
     activeToc.value = `#${anc.id}`
