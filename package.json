@@ -21,6 +21,7 @@
     "magic-grid": "^3.2.4",
     "nuxt-icon": "^0.1.6",
     "theme-change": "^2.2.0",
+    "uuid": "^9.0.0",
     "vue-magic-grid": "0.0.4"
   },
   "devDependencies": {

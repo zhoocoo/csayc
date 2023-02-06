@@ -57,7 +57,7 @@
               </div>
             </div>
 
-            <ProseImg
+            <img
               v-if="!isImmerseRead"
               id="article-main-img"
               class="mx-auto"
@@ -93,8 +93,7 @@ defineComponent({
 </script>
 
 <script setup lang="ts">
-const { navigation, surround, page } = useContent()
-console.log(navigation, surround, page)
+const { page } = useContent()
 umSendPV()
 
 const isImmerseRead = useImmerseRead()
