@@ -7,7 +7,7 @@
     }}</span>
     <div
       v-show="isSupported"
-      class="absolute bottom-2 right-2 flex h-10 w-10 scale-0 cursor-copy items-center justify-center rounded-md bg-slate-800 transition-all duration-300 group-hover/code:scale-100"
+      class="copyWrapper absolute bottom-2 right-2 flex h-10 w-10 scale-0 cursor-copy items-center justify-center rounded-md bg-slate-800 transition-all duration-300 group-hover/code:scale-100"
     >
       <Icon
         :name="copied ? 'ri-check-double-line' : 'ri-clipboard-line'"
@@ -52,5 +52,12 @@ pre code .line {
 }
 pre {
   @apply !px-0 !py-5 indent-3;
+}
+.mockup-code {
+  &:hover {
+    .copyWrapper {
+      @apply scale-100;
+    }
+  }
 }
 </style>
