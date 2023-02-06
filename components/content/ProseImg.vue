@@ -1,7 +1,6 @@
 <template>
-  <span ref="proseImgWrapper" class="proseImgWrapper">
+  <span ref="proseImgWrapper" class="proseImgWrapper my-[2em]">
     <img
-      :id="oriImgId"
       :src="refinedSrc"
       :alt="alt"
       :width="width"
@@ -18,7 +17,6 @@
         @click="handlerZoomImg()"
       >
         <img
-          :id="targetImgId"
           data-flip-id="img"
           :src="refinedSrc"
           :alt="alt"
@@ -64,13 +62,10 @@ const refinedSrc = computed(() => {
   return props.src
 })
 
-const proseImgWrapper = ref<Element>()
-const proseImgTargetWrapper = ref<Element>()
-const oriImg = shallowRef()
-const targetImg = shallowRef()
-
-const oriImgId = uuid()
-const targetImgId = uuid()
+const proseImgWrapper = ref()
+const proseImgTargetWrapper = ref()
+const oriImg = ref()
+const targetImg = ref()
 
 onMounted(() => {
   nextTick(() => {
@@ -93,22 +88,43 @@ const handlerZoomImg = () => {
   Flip.from(state, {
     duration: 0.3,
     absolute: true,
+    prune: true,
     toggleClass: 'flipping',
-    ease: 'power1.inOut'
+    ease: 'power1.inOut',
+    zIndex: 1000,
+    onStart() {
+      console.log('onstart')
+      // 不存在active类，说明状态图片正在缩小
+      if (oriImg.value.classList.contains('active')) {
+        if (proseImgWrapper.value) {
+          proseImgWrapper.value.style.width = oriImg.value.clientWidth + 'px'
+          proseImgWrapper.value.style.height = oriImg.value.clientHeight + 'px'
+        }
+      }
+    },
+    onComplete() {
+      if (!oriImg.value.classList.contains('active')) {
+        if (proseImgWrapper.value) {
+          proseImgWrapper.value.removeAttribute('style')
+        }
+      }
+    }
+    // nested:true
   })
 }
 </script>
 
 <style scoped lang="postcss">
 .proseImgTargetWrapper {
-  @apply hidden h-full w-full items-start justify-center;
+  @apply hidden h-full w-full
+    cursor-zoom-out items-center justify-center;
   &.active {
-    background-color: rgba(0, 0, 0, 0.65);
+    background-color: rgba(0, 0, 0, 0.75);
     @apply fixed top-0 left-0 z-50 flex h-full w-full;
   }
   > img {
-    max-width: 30%;
-    max-height: 30%;
+    max-width: 90%;
+    max-height: 90%;
     @apply hidden;
     &.active {
       @apply block;
@@ -117,9 +133,9 @@ const handlerZoomImg = () => {
 }
 
 .proseImgWrapper {
-  @apply block;
+  @apply block cursor-zoom-in;
   > img {
-    @apply visible;
+    @apply visible w-full;
     &.active {
       @apply invisible;
     }
