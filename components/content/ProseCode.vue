@@ -1,6 +1,11 @@
 <!-- This component is used to show Markdown code block examples -->
 <template>
-  <div class="mockup-code relative pb-0 transition-all">
+  <div
+    class="mockup-code relative pb-0 transition-all"
+    @mouseenter="handlerCopyTrigger(true)"
+    @touchstart="handlerCopyTrigger(true)"
+    @mouseleave="handlerCopyTrigger(false)"
+  >
     <slot />
     <span v-if="props.filename" class="absolute top-2 right-5 text-slate-600">{{
       props.filename
@@ -8,6 +13,7 @@
     <div
       v-show="isSupported"
       class="copyWrapper absolute bottom-2 right-2 flex h-10 w-10 scale-0 cursor-copy items-center justify-center rounded-md bg-slate-800 transition-all duration-300"
+      :class="copyClasses"
     >
       <Icon
         :name="copied ? 'ri-check-double-line' : 'ri-clipboard-line'"
@@ -39,6 +45,13 @@ const props = defineProps({
   }
 })
 const { copy, copied, isSupported } = useClipboard({ source: props.code })
+
+const copyClasses = ref({
+  'scale-100': false
+})
+const handlerCopyTrigger = (isFocus: boolean) => {
+  copyClasses.value['scale-100'] = isFocus
+}
 </script>
 
 <style lang="postcss">
@@ -53,11 +66,11 @@ pre code .line {
 pre {
   @apply !px-0 !py-5 indent-3;
 }
-.mockup-code {
+/* .mockup-code {
   &:hover {
     .copyWrapper {
       @apply scale-100;
     }
   }
-}
+} */
 </style>
