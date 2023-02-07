@@ -74,12 +74,12 @@ function searchAnchor(
 }
 const { toc } = useContent()
 
-interface ILink {
-  id: string
-  depth: number
-  text: string
-  children?: ILink[]
-}
+// interface ILink {
+//   id: string
+//   depth: number
+//   text: string
+//   children?: ILink[]
+// }
 
 const articleAnchors: IArticleAnchors[] = []
 const scrollTop = ref(0)

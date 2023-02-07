@@ -3,7 +3,6 @@
   <div
     class="mockup-code relative pb-0 transition-all"
     @mouseenter="handlerCopyTrigger(true)"
-    @touchstart="handlerCopyTrigger(true)"
     @mouseleave="handlerCopyTrigger(false)"
   >
     <slot />
@@ -50,6 +49,7 @@ const copyClasses = ref({
   'scale-100': false
 })
 const handlerCopyTrigger = (isFocus: boolean) => {
+  console.log('handlerCopyTrigger', isFocus)
   copyClasses.value['scale-100'] = isFocus
 }
 </script>
