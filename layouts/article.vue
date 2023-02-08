@@ -83,9 +83,8 @@
 
 <script lang="ts">
 // import { useWindowScroll, useScroll } from '@vueuse/core'
-
 import { useImmerseRead } from '~~/composable/useArticle'
-import { umSendPV } from '~~/composable/useUm'
+import { umSendPV, umRecord } from '~~/composable/useUm'
 // 定义样式  https://tailwindcss.com/docs/typography-plugin#element-modifiers
 defineComponent({
   name: 'ArtiCleLayout'
@@ -95,6 +94,18 @@ defineComponent({
 <script setup lang="ts">
 const { page } = useContent()
 umSendPV()
+
+onMounted(() => {
+  umRecord({
+    eventName: 'article_detail',
+    eventParams: {
+      host: window.location.host,
+      _path: page._path,
+      _id: page._id,
+      title: page.title
+    }
+  })
+})
 
 const isImmerseRead = useImmerseRead()
 const immerseReadClasses = computed(() => {

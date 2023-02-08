@@ -43,7 +43,11 @@ const props = defineProps({
     default: () => []
   }
 })
-const { copy, copied, isSupported } = useClipboard({ source: props.code })
+const { copy, copied, isSupported } = useClipboard({
+  source: props.code,
+  // 优先使用 Clipboard API，使用execCommand作为后备使用
+  legacy: true
+})
 
 const copyClasses = ref({
   'scale-100': false
