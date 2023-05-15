@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "blog",
       exec_mode: "cluster",
-      instances: "4",
+      instances: "1",
       script: "./.output/server/index.mjs",
       max_memory_restart: "400M",
       env: {
