@@ -1,6 +1,3 @@
-// import colors from 'tailwindcss/colors'
-// const colors = require('tailwindcss/colors')
-
 module.exports = {
   content: [
     './components/**/*.{js,vue,ts}',
@@ -12,7 +9,6 @@ module.exports = {
   ],
   darkMode: 'class',
   plugins: [
-    require('@tailwindcss/line-clamp'),
     require('@tailwindcss/typography'),
     require('daisyui')
   ],
