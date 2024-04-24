@@ -42,7 +42,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/common.css'],
   app: {
     head: {
-      title: 'CSAYC-COOL前端-赵聪聪个人博客',
+      title: '跑不快的代码-COOL前端-赵聪聪个人博客',
       meta: [
         {
           name: 'viewport',
