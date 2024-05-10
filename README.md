@@ -20,4 +20,4 @@ ps：比较遗憾自己因工作原因，从0到1建立基础的博客功能以�
 
 欢迎大家来到我的博客：[在线体验](https://www.csayc.com")
 
-[首页展示](https://article-1256327087.cos.ap-beijing.myqcloud.com/common/csayc-home.gif)
+[![首页展示]](https://article-1256327087.cos.ap-beijing.myqcloud.com/common/csayc-home.gif)
