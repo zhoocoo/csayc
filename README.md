@@ -19,5 +19,10 @@ ps：比较遗憾自己因工作原因，从0到1建立基础的博客功能以�
 - [x] 腾讯coding平台自动化部署
 
 欢迎大家来到我的博客：[在线体验](https://www.csayc.com")
+# 效果展示
+![首页展示](./assets/img/common/csayc-home.gif)
 
-![首页展示](https://article-1256327087.cos.ap-beijing.myqcloud.com/common/csayc-home.gif)
+其他效果：
+![文章详情页展示](./assets/img/common/csayc-article.gif)
+
+![文章列表展示](./assets/img/common/csayc-posts.png)
