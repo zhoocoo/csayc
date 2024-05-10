@@ -4,7 +4,7 @@
 主要技术点有：
 - 样式：taiwindcss➕postcss➕daisyui
 - 主要框架：vue3➕nuxt3
-- 动画：gasp
+- 动画：gsap
 - 部署：腾讯云服务器➕coding平台自动化部署
 - 监控：pm2➕宝塔
 
