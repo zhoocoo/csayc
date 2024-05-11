@@ -1,3 +1,5 @@
+<h1 style="text-align:center;">Frank Z 的个人博客网站</h1>
+
 ![首页展示](./assets/img/common/csayc-home.gif)
 
 本博客使用`Nuxt3`同构渲染搭建，引入`@nuxt/content`解析`md`文件。
