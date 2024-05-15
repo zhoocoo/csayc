@@ -24,7 +24,7 @@
     </main>
     <footer class="fixed bottom-0 flex justify-center w-full py-1 bg-base-200">
       <p>
-        <a href="https://www.miit.gov.cn/" class="flex items-center text-sm">
+        <a href="https://beian.miit.gov.cn/" class="flex items-center text-sm">
           <img class="w-3 mr-1" src="@/assets/img/common/policy.png" alt="" />
           京ICP备2021018962号-2
         </a>

@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer bg-base-200 p-10 text-base-content">
+  <footer class="p-10 footer bg-base-200 text-base-content">
     <div>
       <svg
         width="50"
@@ -15,8 +15,8 @@
         ></path>
       </svg>
       <p>
-        <a href="http://www.beian.miit.gov.cn/" class="flex items-center">
-          <img class="mr-1 w-3" src="@/assets/img/common/policy.png" alt="" />
+        <a href="https://beian.miit.gov.cn/" class="flex items-center">
+          <img class="w-3 mr-1" src="@/assets/img/common/policy.png" alt="" />
           京ICP备2021018962号-2
         </a>
       </p>
