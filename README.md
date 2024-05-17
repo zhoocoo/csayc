@@ -32,6 +32,7 @@
 - [x] 图片原位放大器
 - [x] 引入`codePen`展示代码及运行效果
 - [x] 腾讯coding平台自动化部署
+- [ ] github地址露出，以及star等露出
 
 欢迎大家来到我的博客：[在线体验](https://www.csayc.com)
 
